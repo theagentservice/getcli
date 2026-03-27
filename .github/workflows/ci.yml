@@ -29,7 +29,6 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: cli
-      - run: cp ../manifests/*.yaml manifests/
       - run: cargo check
       - run: cargo test
       - run: cargo clippy -- -D warnings
@@ -65,10 +64,6 @@ jobs:
         with:
           workspaces: cli
           key: ${{ matrix.target }}
-
-      - name: Copy manifests
-        shell: bash
-        run: cp ../manifests/*.yaml manifests/
 
       - name: Install cross-compilation tools (Linux ARM64)
         if: matrix.target == 'aarch64-unknown-linux-gnu'
