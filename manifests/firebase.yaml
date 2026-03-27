@@ -1,0 +1,37 @@
+manifest_version: 1
+id: firebase
+name: firebase
+display_name: Firebase CLI
+homepage: https://firebase.google.com/docs/cli
+description: Manage Firebase projects — hosting, functions, Firestore, and auth
+command: firebase
+aliases: []
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: npm
+    package: firebase-tools
+  alternatives:
+    - type: binary
+      url: https://firebase.google.com/docs/cli#install-cli-mac-linux
+      note: Standalone binary for macOS/Linux
+prerequisites:
+  - node
+auth_notes:
+  - Run `firebase login` to authenticate with Google
+  - Use `firebase login:ci` for CI token
+examples:
+  - firebase projects:list
+  - firebase deploy --only hosting
+  - firebase emulators:start
+tags:
+  - google
+  - cloud
+  - backend
+  - hosting
+  - serverless

@@ -1,0 +1,38 @@
+manifest_version: 1
+id: kubectl
+name: kubectl
+display_name: kubectl
+homepage: https://kubernetes.io/docs/reference/kubectl/
+description: Kubernetes CLI — manage clusters, deployments, and services
+command: kubectl
+aliases:
+  - k8s
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=1.29.0"
+install:
+  default:
+    type: brew
+    package: kubectl
+  alternatives:
+    - type: binary
+      url: https://kubernetes.io/docs/tasks/tools/
+      note: Download from Kubernetes docs
+prerequisites: []
+auth_notes:
+  - Configure kubeconfig (~/.kube/config) or set KUBECONFIG
+  - Use cloud provider CLI to get cluster credentials
+examples:
+  - kubectl get pods -A
+  - kubectl apply -f deployment.yaml
+  - kubectl logs -f deployment/myapp
+  - kubectl get nodes -o json
+tags:
+  - kubernetes
+  - containers
+  - orchestration
+  - devops

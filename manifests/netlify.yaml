@@ -1,0 +1,36 @@
+manifest_version: 1
+id: netlify
+name: netlify
+display_name: Netlify CLI
+homepage: https://www.netlify.com/products/cli/
+description: Deploy sites and manage Netlify services from the command line
+command: netlify
+aliases:
+  - ntl
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: npm
+    package: netlify-cli
+  alternatives:
+    - type: brew
+      package: netlify-cli
+prerequisites:
+  - node
+auth_notes:
+  - Run `netlify login` to authenticate
+  - Set NETLIFY_AUTH_TOKEN for CI/CD
+examples:
+  - netlify deploy --prod
+  - netlify sites:list --json
+  - netlify dev
+tags:
+  - deploy
+  - hosting
+  - jamstack
+  - serverless

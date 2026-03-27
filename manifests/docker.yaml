@@ -1,0 +1,36 @@
+manifest_version: 1
+id: docker
+name: docker
+display_name: Docker CLI
+homepage: https://www.docker.com
+description: Build, run, and manage containers and images
+command: docker
+aliases: []
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: brew
+    package: docker
+  alternatives:
+    - type: binary
+      url: https://docs.docker.com/get-docker/
+      note: Install Docker Desktop or Docker Engine
+prerequisites: []
+auth_notes:
+  - Run `docker login` to authenticate with Docker Hub
+  - Docker daemon must be running
+examples:
+  - docker ps
+  - docker build -t myapp .
+  - docker compose up -d
+  - docker images --format json
+tags:
+  - containers
+  - devops
+  - build
+  - infrastructure

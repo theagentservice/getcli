@@ -1,0 +1,39 @@
+manifest_version: 1
+id: aws
+name: aws
+display_name: AWS CLI
+homepage: https://aws.amazon.com/cli/
+description: Official CLI for Amazon Web Services — manage AWS resources
+command: aws
+aliases:
+  - awscli
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=2.15.0"
+install:
+  default:
+    type: brew
+    package: awscli
+  alternatives:
+    - type: pipx
+      package: awscli
+    - type: binary
+      url: https://aws.amazon.com/cli/
+      note: Download official installer from AWS
+prerequisites: []
+auth_notes:
+  - Run `aws configure` or set AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+  - Use `aws sso login` for SSO-based access
+examples:
+  - aws s3 ls
+  - aws ec2 describe-instances --output json
+  - aws sts get-caller-identity
+tags:
+  - cloud
+  - aws
+  - infrastructure
+  - devops

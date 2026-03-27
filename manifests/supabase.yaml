@@ -1,0 +1,38 @@
+manifest_version: 1
+id: supabase
+name: supabase
+display_name: Supabase CLI
+homepage: https://supabase.com/docs/guides/cli
+description: Manage Supabase projects — database, auth, storage, and edge functions
+command: supabase
+aliases: []
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=2.0.0"
+install:
+  default:
+    type: brew
+    package: supabase/tap/supabase
+  alternatives:
+    - type: npm
+      package: supabase
+    - type: binary
+      url: https://github.com/supabase/cli/releases
+      note: Download from GitHub Releases
+prerequisites: []
+auth_notes:
+  - Run `supabase login` to authenticate
+  - Set SUPABASE_ACCESS_TOKEN for CI/CD
+examples:
+  - supabase projects list
+  - supabase db push
+  - supabase functions deploy my-function
+tags:
+  - database
+  - backend
+  - auth
+  - serverless

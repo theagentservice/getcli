@@ -1,0 +1,36 @@
+[package]
+name = "getcli"
+version = "0.1.0"
+edition = "2021"
+description = "A unified installer for agent-friendly CLIs"
+license = "Apache-2.0"
+repository = "https://github.com/theagentservice/getcli"
+homepage = "https://getcli.dev"
+readme = "../README.md"
+keywords = ["cli", "agent", "installer", "registry"]
+categories = ["command-line-utilities", "development-tools"]
+
+include = ["src/**/*", "build.rs", "manifests/**/*", "Cargo.toml"]
+
+[[bin]]
+name = "getcli"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.6", features = ["derive"] }
+clap_complete = "4"
+serde = { version = "1", features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = "1"
+colored = "3"
+dirs = "6"
+chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.13", features = ["blocking", "json"] }
+rust-embed = { version = "8.11", features = ["include-exclude"] }
+anyhow = "1"
+dialoguer = "0.12"
+tempfile = "3"
+
+[dev-dependencies]
+assert_cmd = "2.2"
+predicates = "3"

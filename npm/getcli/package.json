@@ -1,0 +1,28 @@
+{
+  "name": "@agentservice/getcli",
+  "version": "0.1.0",
+  "description": "A unified installer for agent-friendly CLIs",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theagentservice/getcli"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "bin": {
+    "getcli": "bin/getcli.js"
+  },
+  "files": ["bin/getcli.js"],
+  "scripts": {
+    "postinstall": "node bin/getcli.js --install"
+  },
+  "optionalDependencies": {
+    "@agentservice/getcli-darwin-arm64": "0.1.0",
+    "@agentservice/getcli-darwin-x64": "0.1.0",
+    "@agentservice/getcli-linux-x64": "0.1.0",
+    "@agentservice/getcli-linux-arm64": "0.1.0",
+    "@agentservice/getcli-win32-x64": "0.1.0"
+  }
+}

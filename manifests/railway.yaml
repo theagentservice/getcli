@@ -1,0 +1,38 @@
+manifest_version: 1
+id: railway
+name: railway
+display_name: Railway CLI
+homepage: https://railway.app
+description: Deploy and manage projects on Railway — databases, services, and more
+command: railway
+aliases:
+  - rw
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: brew
+    package: railway
+  alternatives:
+    - type: npm
+      package: "@railway/cli"
+    - type: binary
+      url: https://docs.railway.app/guides/cli
+      note: Install via official script
+prerequisites: []
+auth_notes:
+  - Run `railway login` to authenticate
+  - Set RAILWAY_TOKEN for CI/CD
+examples:
+  - railway status
+  - railway up
+  - railway logs
+tags:
+  - cloud
+  - deploy
+  - hosting
+  - database

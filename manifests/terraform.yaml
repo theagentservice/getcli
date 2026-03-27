@@ -1,0 +1,38 @@
+manifest_version: 1
+id: terraform
+name: terraform
+display_name: Terraform CLI
+homepage: https://www.terraform.io
+description: Infrastructure as Code — provision and manage cloud resources declaratively
+command: terraform
+aliases:
+  - tf
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=1.7.0"
+install:
+  default:
+    type: brew
+    package: terraform
+  alternatives:
+    - type: binary
+      url: https://developer.hashicorp.com/terraform/install
+      note: Download from HashiCorp
+prerequisites: []
+auth_notes:
+  - Configure provider credentials (AWS, GCP, Azure) before use
+  - Use HCP Terraform for remote state management
+examples:
+  - terraform init
+  - terraform plan -out=plan.tfplan
+  - terraform apply plan.tfplan
+  - terraform state list
+tags:
+  - infrastructure
+  - iac
+  - cloud
+  - devops

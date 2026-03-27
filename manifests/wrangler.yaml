@@ -1,0 +1,36 @@
+manifest_version: 1
+id: wrangler
+name: wrangler
+display_name: Cloudflare Wrangler
+homepage: https://developers.cloudflare.com/workers/wrangler
+description: CLI for Cloudflare Workers — develop, test, and deploy serverless functions
+command: wrangler
+aliases:
+  - wrangler
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: false
+recommended_version: ">=3.0.0"
+install:
+  default:
+    type: npm
+    package: wrangler
+  alternatives: []
+prerequisites:
+  - node
+auth_notes:
+  - Run `wrangler login` to authenticate via browser
+  - Or set CLOUDFLARE_API_TOKEN environment variable
+examples:
+  - wrangler init my-project
+  - wrangler deploy
+  - wrangler dev
+tags:
+  - cloudflare
+  - deploy
+  - serverless
+  - workers
+  - edge

@@ -1,0 +1,36 @@
+manifest_version: 1
+id: fly
+name: fly
+display_name: Fly.io CLI
+homepage: https://fly.io
+description: Deploy and manage apps on Fly.io's global platform
+command: fly
+aliases:
+  - flyctl
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=0.3.0"
+install:
+  default:
+    type: brew
+    package: flyctl
+  alternatives:
+    - type: binary
+      url: https://fly.io/docs/flyctl/install/
+      note: Install via official script
+prerequisites: []
+auth_notes:
+  - Run `fly auth login` before deploying
+examples:
+  - fly apps list
+  - fly deploy
+  - fly status --json
+tags:
+  - cloud
+  - deploy
+  - hosting
+  - containers

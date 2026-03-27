@@ -1,0 +1,35 @@
+manifest_version: 1
+id: vercel
+name: vercel
+display_name: Vercel CLI
+homepage: https://vercel.com/docs/cli
+description: Deploy and manage Vercel projects from the command line
+command: vercel
+aliases:
+  - vc
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=37.0.0"
+install:
+  default:
+    type: npm
+    package: vercel
+  alternatives: []
+prerequisites:
+  - node
+auth_notes:
+  - Run `vercel login` to authenticate
+  - Deployment requires a linked project or --yes for auto-setup
+examples:
+  - vercel deploy
+  - vercel env ls
+  - vercel domains ls
+tags:
+  - deploy
+  - hosting
+  - serverless
+  - frontend

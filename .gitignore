@@ -1,0 +1,21 @@
+# Internal prompts (Chinese docs)
+.prompt/
+
+# Build output
+node_modules/
+target/
+web/.next/
+web/out/
+
+# Local tool state
+.wrangler/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

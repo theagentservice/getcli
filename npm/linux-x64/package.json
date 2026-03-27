@@ -1,0 +1,17 @@
+{
+  "name": "@agentservice/getcli-linux-x64",
+  "version": "0.1.0",
+  "description": "getcli binary for Linux x64",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theagentservice/getcli"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "os": ["linux"],
+  "cpu": ["x64"],
+  "files": ["bin/getcli"]
+}

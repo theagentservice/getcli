@@ -1,0 +1,36 @@
+manifest_version: 1
+id: stripe
+name: stripe
+display_name: Stripe CLI
+homepage: https://stripe.com/docs/stripe-cli
+description: Official CLI for Stripe — test webhooks, manage resources, and trigger events
+command: stripe
+aliases: []
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=1.19.0"
+install:
+  default:
+    type: brew
+    package: stripe/stripe-cli/stripe
+  alternatives:
+    - type: binary
+      url: https://github.com/stripe/stripe-cli/releases
+      note: Download pre-built binary from GitHub Releases
+prerequisites: []
+auth_notes:
+  - Run `stripe login` to authenticate via browser
+  - API keys can be set via STRIPE_API_KEY
+examples:
+  - stripe listen --forward-to localhost:3000/webhook
+  - stripe trigger payment_intent.succeeded
+  - stripe resources list
+tags:
+  - payments
+  - stripe
+  - fintech
+  - webhooks

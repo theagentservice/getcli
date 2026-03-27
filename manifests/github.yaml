@@ -1,0 +1,37 @@
+manifest_version: 1
+id: github
+name: github
+display_name: GitHub CLI
+homepage: https://cli.github.com
+description: Official CLI for GitHub — manage repos, PRs, issues, and more
+command: gh
+aliases:
+  - gh
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+recommended_version: ">=2.40.0"
+install:
+  default:
+    type: brew
+    package: gh
+  alternatives:
+    - type: binary
+      url: https://github.com/cli/cli/releases
+      note: Download pre-built binary from GitHub Releases
+prerequisites: []
+auth_notes:
+  - Run `gh auth login` before using most commands
+  - Most read operations on public repos do not require auth
+examples:
+  - gh repo list
+  - gh issue list
+  - 'gh pr create --title "fix: typo" --body "Fixed a typo"'
+tags:
+  - git
+  - github
+  - scm
+  - vcs

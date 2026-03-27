@@ -1,0 +1,33 @@
+manifest_version: 1
+id: turso
+name: turso
+display_name: Turso CLI
+homepage: https://turso.tech
+description: CLI for Turso — the edge SQLite database built on libSQL
+command: turso
+aliases: []
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: brew
+    package: tursodatabase/tap/turso
+  alternatives:
+    - type: binary
+      url: https://docs.turso.tech/cli/installation
+      note: Install via official script
+prerequisites: []
+auth_notes:
+  - Run `turso auth login` to authenticate
+examples:
+  - turso db list
+  - turso db create my-db
+  - turso db shell my-db
+tags:
+  - database
+  - sqlite
+  - edge
