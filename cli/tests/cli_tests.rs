@@ -1,8 +1,25 @@
 use assert_cmd::Command;
 use predicates::prelude::*;
+use std::fs;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 fn getcli() -> Command {
-    Command::cargo_bin("getcli").unwrap()
+    let mut cmd = Command::cargo_bin("getcli").unwrap();
+    let unique = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let test_root = std::env::temp_dir().join(format!(
+        "getcli-test-{}-{unique}",
+        std::process::id()
+    ));
+    let config_home = test_root.join("config");
+    let home = test_root.join("home");
+    fs::create_dir_all(&config_home).unwrap();
+    fs::create_dir_all(&home).unwrap();
+    cmd.env("XDG_CONFIG_HOME", &config_home);
+    cmd.env("HOME", &home);
+    cmd
 }
 
 #[test]
