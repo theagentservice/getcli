@@ -5,6 +5,7 @@
 
 # next.js
 /.next/
+/.open-next/
 /out/
 
 # production
@@ -13,7 +14,11 @@
 # misc
 .DS_Store
 *.pem
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
 .env*.local
+cloudflare-env.d.ts
 
 # typescript
 *.tsbuildinfo
