@@ -147,14 +147,12 @@ fn remove_binary(command: &str) -> Result<()> {
     } else {
         // Also check if it's somewhere in PATH
         let which_cmd = if cfg!(windows) { "where" } else { "which" };
-        if let Ok(output) = std::process::Command::new(which_cmd).arg(command).output() {
-            if output.status.success() {
-                let path = String::from_utf8_lossy(&output.stdout).trim().to_string();
-                eprintln!(
-                    "Binary found at {path} but was not installed to the getcli binary dir."
-                );
-                eprintln!("Please remove it manually: rm {path}");
-            }
+        if let Ok(output) = std::process::Command::new(which_cmd).arg(command).output()
+            && output.status.success()
+        {
+            let path = String::from_utf8_lossy(&output.stdout).trim().to_string();
+            eprintln!("Binary found at {path} but was not installed to the getcli binary dir.");
+            eprintln!("Please remove it manually: rm {path}");
         }
         anyhow::bail!(
             "Binary \"{}\" not found at {}",

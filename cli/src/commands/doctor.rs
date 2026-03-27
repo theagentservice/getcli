@@ -83,12 +83,12 @@ pub fn run(args: DoctorArgs) -> Result<()> {
     let passed = issues.is_empty();
 
     // Update state
-    if let Ok(mut state) = State::load() {
-        if let Some(tool_state) = state.tools.get_mut(&m.id) {
-            tool_state.last_doctor_at = Some(Utc::now());
-            tool_state.doctor_passed = Some(passed);
-            let _ = state.save();
-        }
+    if let Ok(mut state) = State::load()
+        && let Some(tool_state) = state.tools.get_mut(&m.id)
+    {
+        tool_state.last_doctor_at = Some(Utc::now());
+        tool_state.doctor_passed = Some(passed);
+        let _ = state.save();
     }
 
     if args.json {

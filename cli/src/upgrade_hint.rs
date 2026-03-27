@@ -30,12 +30,13 @@ pub fn maybe_print_hint(json_mode: bool, yes_mode: bool) {
         }
     };
 
-    if let Some(ref v) = latest {
-        if v != current && is_newer(v, current) {
-            eprintln!(
-                "\x1b[33mgetcli v{v} available (current: v{current}). Run `getcli update` to upgrade.\x1b[0m"
-            );
-        }
+    if let Some(ref v) = latest
+        && v != current
+        && is_newer(v, current)
+    {
+        eprintln!(
+            "\x1b[33mgetcli v{v} available (current: v{current}). Run `getcli update` to upgrade.\x1b[0m"
+        );
     }
 }
 

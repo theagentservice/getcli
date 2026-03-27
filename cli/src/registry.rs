@@ -65,10 +65,10 @@ pub fn search(manifests: &[Manifest], query: &str, tag_filter: Option<&str>) -> 
 
     for m in manifests {
         // Apply tag filter
-        if let Some(tag) = tag_filter {
-            if !m.tags.iter().any(|t| t.eq_ignore_ascii_case(tag)) {
-                continue;
-            }
+        if let Some(tag) = tag_filter
+            && !m.tags.iter().any(|t| t.eq_ignore_ascii_case(tag))
+        {
+            continue;
         }
 
         let score = compute_score(m, &query_lower);

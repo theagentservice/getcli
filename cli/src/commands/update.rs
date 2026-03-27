@@ -172,10 +172,10 @@ fn detect_install_method() -> InstallMethod {
     }
 
     // Fallback: ask brew
-    if let Ok(output) = Command::new("brew").args(["list", "getcli"]).output() {
-        if output.status.success() {
-            return InstallMethod::Brew;
-        }
+    if let Ok(output) = Command::new("brew").args(["list", "getcli"]).output()
+        && output.status.success()
+    {
+        return InstallMethod::Brew;
     }
 
     InstallMethod::Binary
