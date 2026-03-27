@@ -119,10 +119,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Check if version already exists on crates.io
+        id: crate
+        run: |
+          if curl -fsSL "https://crates.io/api/v1/crates/getcli/${VERSION}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "getcli ${VERSION} already exists on crates.io, skipping publish."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       - name: Authenticate with crates.io trusted publishing
+        if: steps.crate.outputs.exists != 'true'
         id: auth
         uses: rust-lang/crates-io-auth-action@v1
       - name: Publish
+        if: steps.crate.outputs.exists != 'true'
         working-directory: cli
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
@@ -163,8 +178,13 @@ jobs:
             # Copy artifact contents into the source npm package dir
             cp -r "$pkg_dir"/* "npm/$PKG_NAME/"
             cd "npm/$PKG_NAME"
+            PKG_FULL_NAME=$(node -p "require('./package.json').name")
             npm version "$VERSION" --no-git-tag-version --allow-same-version
-            npm publish --provenance --access public --registry=https://registry.npmjs.org
+            if npm view "$PKG_FULL_NAME@$VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+              echo "$PKG_FULL_NAME@$VERSION already exists on npm, skipping publish."
+            else
+              npm publish --provenance --access public --registry=https://registry.npmjs.org
+            fi
             cd "$GITHUB_WORKSPACE"
           done
 
@@ -182,11 +202,17 @@ jobs:
             pkg.version = v;
             require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
-          npm publish --provenance --access public --registry=https://registry.npmjs.org
+          PKG_FULL_NAME=$(node -p "require('./package.json').name")
+          if npm view "$PKG_FULL_NAME@$VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "$PKG_FULL_NAME@$VERSION already exists on npm, skipping publish."
+          else
+            npm publish --provenance --access public --registry=https://registry.npmjs.org
+          fi
 
   update-homebrew:
     name: Update Homebrew Formula
     needs: release
+    if: ${{ secrets.HOMEBREW_TAP_TOKEN != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout homebrew-tap repo
