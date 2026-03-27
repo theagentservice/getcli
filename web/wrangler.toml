@@ -8,6 +8,10 @@ compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 pattern = "getcli.dev"
 custom_domain = true
 
+[[routes]]
+pattern = "www.getcli.dev"
+custom_domain = true
+
 [assets]
 directory = ".open-next/assets"
 binding = "ASSETS"
