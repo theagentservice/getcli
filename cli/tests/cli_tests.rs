@@ -146,6 +146,36 @@ fn test_doctor_not_found() {
 }
 
 #[test]
+fn test_doctor_environment_json() {
+    getcli()
+        .args(["doctor", "--json"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\"scope\": \"environment\""))
+        .stdout(predicate::str::contains("\"installers\""))
+        .stdout(predicate::str::contains("\"path_configured\""))
+        .stdout(predicate::str::contains("\"npm\""))
+        .stdout(predicate::str::contains("\"bun\""))
+        .stdout(predicate::str::contains("\"pnpm\""));
+}
+
+#[test]
+fn test_doctor_environment_text() {
+    getcli()
+        .args(["doctor"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Doctor: environment"))
+        .stdout(predicate::str::contains("path:"))
+        .stdout(predicate::str::contains("installers:"))
+        .stdout(predicate::str::contains("name"))
+        .stdout(predicate::str::contains("available"))
+        .stdout(predicate::str::contains("npm"))
+        .stdout(predicate::str::contains("bun"))
+        .stdout(predicate::str::contains("pnpm"));
+}
+
+#[test]
 fn test_update_json() {
     // Just check it doesn't crash; actual update check may fail without network
     getcli()
@@ -236,5 +266,6 @@ fn test_doctor_text_includes_installers() {
         .stdout(predicate::str::contains("installers:"))
         .stdout(predicate::str::contains("brew:"))
         .stdout(predicate::str::contains("npm:"))
+        .stdout(predicate::str::contains("bun:"))
         .stdout(predicate::str::contains("pnpm:"));
 }
