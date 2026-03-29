@@ -65,7 +65,9 @@ export default function RegistryPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="font-semibold text-lg">
-                    {tool.display_name}
+                    <Link href={`/cli/${tool.id}`} className="hover:underline underline-offset-4">
+                      {tool.display_name}
+                    </Link>
                     <code className="ml-2 text-sm text-gray-500 font-normal">{tool.command}</code>
                   </h2>
                   <p className="text-gray-600 text-sm mt-1">{tool.description}</p>
@@ -99,6 +101,15 @@ export default function RegistryPage() {
               <div className="mt-3 bg-gray-50 rounded p-3 text-sm">
                 <code className="text-gray-500">getcli install {tool.id} --yes</code>
                 <span className="text-gray-400 ml-4">via {tool.install_default}</span>
+              </div>
+
+              <div className="mt-3">
+                <Link
+                  href={`/cli/${tool.id}`}
+                  className="text-sm text-gray-900 underline underline-offset-4"
+                >
+                  Open landing page
+                </Link>
               </div>
 
               {tool.examples.length > 0 && (

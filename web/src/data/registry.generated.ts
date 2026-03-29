@@ -11,6 +11,9 @@ export const tools: Tool[] = [
     "description": "Official CLI for Amazon Web Services — manage AWS resources",
     "command": "aws",
     "homepage": "https://aws.amazon.com/cli/",
+    "aliases": [
+      "awscli"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -18,7 +21,25 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=2.15.0",
     "install_default": "brew",
+    "install_default_package": "awscli",
+    "install_alternatives": [
+      {
+        "type": "pipx",
+        "package": "awscli"
+      },
+      {
+        "type": "binary",
+        "url": "https://aws.amazon.com/cli/",
+        "note": "Download official installer from AWS"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `aws configure` or set AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY",
+      "Use `aws sso login` for SSO-based access"
+    ],
     "tags": [
       "cloud",
       "aws",
@@ -38,6 +59,7 @@ export const tools: Tool[] = [
     "description": "Build, run, and manage containers and images",
     "command": "docker",
     "homepage": "https://www.docker.com",
+    "aliases": [],
     "platforms": [
       "macos",
       "linux",
@@ -46,6 +68,19 @@ export const tools: Tool[] = [
     "agent_friendly": true,
     "supports_json": true,
     "install_default": "brew",
+    "install_default_package": "docker",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://docs.docker.com/get-docker/",
+        "note": "Install Docker Desktop or Docker Engine"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `docker login` to authenticate with Docker Hub",
+      "Docker daemon must be running"
+    ],
     "tags": [
       "containers",
       "devops",
@@ -66,6 +101,7 @@ export const tools: Tool[] = [
     "description": "Manage Firebase projects — hosting, functions, Firestore, and auth",
     "command": "firebase",
     "homepage": "https://firebase.google.com/docs/cli",
+    "aliases": [],
     "platforms": [
       "macos",
       "linux",
@@ -74,6 +110,21 @@ export const tools: Tool[] = [
     "agent_friendly": true,
     "supports_json": true,
     "install_default": "npm",
+    "install_default_package": "firebase-tools",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://firebase.google.com/docs/cli#install-cli-mac-linux",
+        "note": "Standalone binary for macOS/Linux"
+      }
+    ],
+    "prerequisites": [
+      "node"
+    ],
+    "auth_notes": [
+      "Run `firebase login` to authenticate with Google",
+      "Use `firebase login:ci` for CI token"
+    ],
     "tags": [
       "google",
       "cloud",
@@ -94,6 +145,9 @@ export const tools: Tool[] = [
     "description": "Deploy and manage apps on Fly.io's global platform",
     "command": "fly",
     "homepage": "https://fly.io",
+    "aliases": [
+      "flyctl"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -101,7 +155,20 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=0.3.0",
     "install_default": "brew",
+    "install_default_package": "flyctl",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://fly.io/docs/flyctl/install/",
+        "note": "Install via official script"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `fly auth login` before deploying"
+    ],
     "tags": [
       "cloud",
       "deploy",
@@ -121,6 +188,9 @@ export const tools: Tool[] = [
     "description": "Official CLI for GitHub — manage repos, PRs, issues, and more",
     "command": "gh",
     "homepage": "https://cli.github.com",
+    "aliases": [
+      "gh"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -128,7 +198,21 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=2.40.0",
     "install_default": "brew",
+    "install_default_package": "gh",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://github.com/cli/cli/releases",
+        "note": "Download pre-built binary from GitHub Releases"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `gh auth login` before using most commands",
+      "Most read operations on public repos do not require auth"
+    ],
     "tags": [
       "git",
       "github",
@@ -148,6 +232,9 @@ export const tools: Tool[] = [
     "description": "Kubernetes CLI — manage clusters, deployments, and services",
     "command": "kubectl",
     "homepage": "https://kubernetes.io/docs/reference/kubectl/",
+    "aliases": [
+      "k8s"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -155,7 +242,21 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=1.29.0",
     "install_default": "brew",
+    "install_default_package": "kubectl",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://kubernetes.io/docs/tasks/tools/",
+        "note": "Download from Kubernetes docs"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Configure kubeconfig (~/.kube/config) or set KUBECONFIG",
+      "Use cloud provider CLI to get cluster credentials"
+    ],
     "tags": [
       "kubernetes",
       "containers",
@@ -176,6 +277,9 @@ export const tools: Tool[] = [
     "description": "Deploy sites and manage Netlify services from the command line",
     "command": "netlify",
     "homepage": "https://www.netlify.com/products/cli/",
+    "aliases": [
+      "ntl"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -184,6 +288,20 @@ export const tools: Tool[] = [
     "agent_friendly": true,
     "supports_json": true,
     "install_default": "npm",
+    "install_default_package": "netlify-cli",
+    "install_alternatives": [
+      {
+        "type": "brew",
+        "package": "netlify-cli"
+      }
+    ],
+    "prerequisites": [
+      "node"
+    ],
+    "auth_notes": [
+      "Run `netlify login` to authenticate",
+      "Set NETLIFY_AUTH_TOKEN for CI/CD"
+    ],
     "tags": [
       "deploy",
       "hosting",
@@ -203,6 +321,9 @@ export const tools: Tool[] = [
     "description": "Deploy and manage projects on Railway — databases, services, and more",
     "command": "railway",
     "homepage": "https://railway.app",
+    "aliases": [
+      "rw"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -211,6 +332,23 @@ export const tools: Tool[] = [
     "agent_friendly": true,
     "supports_json": true,
     "install_default": "brew",
+    "install_default_package": "railway",
+    "install_alternatives": [
+      {
+        "type": "npm",
+        "package": "@railway/cli"
+      },
+      {
+        "type": "binary",
+        "url": "https://docs.railway.app/guides/cli",
+        "note": "Install via official script"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `railway login` to authenticate",
+      "Set RAILWAY_TOKEN for CI/CD"
+    ],
     "tags": [
       "cloud",
       "deploy",
@@ -230,6 +368,7 @@ export const tools: Tool[] = [
     "description": "Official CLI for Stripe — test webhooks, manage resources, and trigger events",
     "command": "stripe",
     "homepage": "https://stripe.com/docs/stripe-cli",
+    "aliases": [],
     "platforms": [
       "macos",
       "linux",
@@ -237,7 +376,21 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=1.19.0",
     "install_default": "brew",
+    "install_default_package": "stripe/stripe-cli/stripe",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://github.com/stripe/stripe-cli/releases",
+        "note": "Download pre-built binary from GitHub Releases"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `stripe login` to authenticate via browser",
+      "API keys can be set via STRIPE_API_KEY"
+    ],
     "tags": [
       "payments",
       "stripe",
@@ -257,6 +410,7 @@ export const tools: Tool[] = [
     "description": "Manage Supabase projects — database, auth, storage, and edge functions",
     "command": "supabase",
     "homepage": "https://supabase.com/docs/guides/cli",
+    "aliases": [],
     "platforms": [
       "macos",
       "linux",
@@ -264,7 +418,25 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=2.0.0",
     "install_default": "brew",
+    "install_default_package": "supabase/tap/supabase",
+    "install_alternatives": [
+      {
+        "type": "npm",
+        "package": "supabase"
+      },
+      {
+        "type": "binary",
+        "url": "https://github.com/supabase/cli/releases",
+        "note": "Download from GitHub Releases"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `supabase login` to authenticate",
+      "Set SUPABASE_ACCESS_TOKEN for CI/CD"
+    ],
     "tags": [
       "database",
       "backend",
@@ -284,6 +456,9 @@ export const tools: Tool[] = [
     "description": "Infrastructure as Code — provision and manage cloud resources declaratively",
     "command": "terraform",
     "homepage": "https://www.terraform.io",
+    "aliases": [
+      "tf"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -291,7 +466,21 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=1.7.0",
     "install_default": "brew",
+    "install_default_package": "terraform",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://developer.hashicorp.com/terraform/install",
+        "note": "Download from HashiCorp"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Configure provider credentials (AWS, GCP, Azure) before use",
+      "Use HCP Terraform for remote state management"
+    ],
     "tags": [
       "infrastructure",
       "iac",
@@ -312,6 +501,7 @@ export const tools: Tool[] = [
     "description": "CLI for Turso — the edge SQLite database built on libSQL",
     "command": "turso",
     "homepage": "https://turso.tech",
+    "aliases": [],
     "platforms": [
       "macos",
       "linux",
@@ -320,6 +510,18 @@ export const tools: Tool[] = [
     "agent_friendly": true,
     "supports_json": true,
     "install_default": "brew",
+    "install_default_package": "tursodatabase/tap/turso",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://docs.turso.tech/cli/installation",
+        "note": "Install via official script"
+      }
+    ],
+    "prerequisites": [],
+    "auth_notes": [
+      "Run `turso auth login` to authenticate"
+    ],
     "tags": [
       "database",
       "sqlite",
@@ -338,6 +540,9 @@ export const tools: Tool[] = [
     "description": "Deploy and manage Vercel projects from the command line",
     "command": "vercel",
     "homepage": "https://vercel.com/docs/cli",
+    "aliases": [
+      "vc"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -345,7 +550,17 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": true,
+    "recommended_version": ">=37.0.0",
     "install_default": "npm",
+    "install_default_package": "vercel",
+    "install_alternatives": [],
+    "prerequisites": [
+      "node"
+    ],
+    "auth_notes": [
+      "Run `vercel login` to authenticate",
+      "Deployment requires a linked project or --yes for auto-setup"
+    ],
     "tags": [
       "deploy",
       "hosting",
@@ -365,6 +580,9 @@ export const tools: Tool[] = [
     "description": "CLI for Cloudflare Workers — develop, test, and deploy serverless functions",
     "command": "wrangler",
     "homepage": "https://developers.cloudflare.com/workers/wrangler",
+    "aliases": [
+      "wrangler"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -372,7 +590,17 @@ export const tools: Tool[] = [
     ],
     "agent_friendly": true,
     "supports_json": false,
+    "recommended_version": ">=3.0.0",
     "install_default": "npm",
+    "install_default_package": "wrangler",
+    "install_alternatives": [],
+    "prerequisites": [
+      "node"
+    ],
+    "auth_notes": [
+      "Run `wrangler login` to authenticate via browser",
+      "Or set CLOUDFLARE_API_TOKEN environment variable"
+    ],
     "tags": [
       "cloudflare",
       "deploy",

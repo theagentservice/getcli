@@ -25,6 +25,29 @@ function assertStringArray(value, field, file) {
   return value;
 }
 
+function normalizeInstallMethod(value, field, file) {
+  if (!value || typeof value !== "object") {
+    throw new Error(`${file}: expected "${field}" to be an object`);
+  }
+
+  const type = assertString(value.type, `${field}.type`, file);
+  const nextValue = { type };
+
+  if (typeof value.package === "string" && value.package.length > 0) {
+    nextValue.package = value.package;
+  }
+
+  if (typeof value.url === "string" && value.url.length > 0) {
+    nextValue.url = value.url;
+  }
+
+  if (typeof value.note === "string" && value.note.length > 0) {
+    nextValue.note = value.note;
+  }
+
+  return nextValue;
+}
+
 async function loadTools() {
   const entries = (await fs.readdir(manifestsDir))
     .filter((entry) => entry.endsWith(".yaml"))
@@ -52,10 +75,25 @@ async function loadTools() {
           typeof manifest.homepage === "string" && manifest.homepage.length > 0
             ? manifest.homepage
             : undefined,
+        aliases: assertStringArray(manifest.aliases ?? [], "aliases", entry),
         platforms: assertStringArray(manifest.platforms, "platforms", entry),
         agent_friendly: Boolean(manifest.agent_friendly),
         supports_json: Boolean(manifest.supports_json),
+        recommended_version:
+          typeof manifest.recommended_version === "string" && manifest.recommended_version.length > 0
+            ? manifest.recommended_version
+            : undefined,
         install_default: assertString(manifest.install?.default?.type, "install.default.type", entry),
+        install_default_package:
+          typeof manifest.install?.default?.package === "string" &&
+          manifest.install.default.package.length > 0
+            ? manifest.install.default.package
+            : undefined,
+        install_alternatives: (manifest.install?.alternatives ?? []).map((alternative, index) =>
+          normalizeInstallMethod(alternative, `install.alternatives[${index}]`, entry)
+        ),
+        prerequisites: assertStringArray(manifest.prerequisites ?? [], "prerequisites", entry),
+        auth_notes: assertStringArray(manifest.auth_notes ?? [], "auth_notes", entry),
         tags: assertStringArray(manifest.tags ?? [], "tags", entry),
         examples: assertStringArray(manifest.examples ?? [], "examples", entry),
       };

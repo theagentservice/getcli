@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import InstallTabs, { type InstallTab } from "@/components/install-tabs";
+import { featuredToolIds } from "@/data/tool-content";
+import { tools } from "@/data/registry";
 import {
   absoluteUrl,
   defaultDescription,
@@ -67,6 +69,10 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const featuredTools = featuredToolIds
+    .map((id) => tools.find((tool) => tool.id === id))
+    .filter((tool): tool is (typeof tools)[number] => tool !== undefined);
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -131,6 +137,25 @@ export default function Home() {
             <p className="text-sm text-gray-600">
               Built-in doctor checks that tools are installed, executable, and have prerequisites.
             </p>
+          </div>
+        </div>
+
+        <div className="mb-8 text-left">
+          <h2 className="text-xl font-semibold">Popular CLI Pages</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Browse install guides built for specific tools, not just the generic registry.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {featuredTools.map((tool) => (
+              <Link
+                key={tool.id}
+                href={`/cli/${tool.id}`}
+                className="rounded-lg border border-gray-200 p-4 transition hover:border-gray-400"
+              >
+                <p className="font-medium">{tool.display_name}</p>
+                <p className="mt-1 text-sm text-gray-600">{tool.description}</p>
+              </Link>
+            ))}
           </div>
         </div>
 

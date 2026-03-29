@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { tools } from "@/data/registry";
 import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -25,5 +26,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.9,
     },
+    ...tools.map((tool) => ({
+      url: absoluteUrl(`/cli/${tool.id}`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
   ];
 }

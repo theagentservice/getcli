@@ -1,6 +1,12 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 
-const config = [...nextVitals, ...nextTypescript];
+const config = [
+  {
+    ignores: [".open-next/**", "out/**", "cloudflare-env.d.ts"],
+  },
+  ...nextVitals,
+  ...nextTypescript,
+];
 
 export default config;
