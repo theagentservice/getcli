@@ -5,7 +5,6 @@ set -e
 # Usage: curl -fsSL https://getcli.dev/install.sh | sh
 
 REPO="theagentservice/getcli"
-INSTALL_DIR="${GETCLI_INSTALL_DIR:-$HOME/.local/bin}"
 BASE_URL="https://github.com/$REPO/releases"
 
 main() {
@@ -39,9 +38,11 @@ main() {
             ;;
     esac
 
-    # Get latest version from GitHub
-    _version="$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" \
-        | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": *"//;s/".*//')"
+    INSTALL_DIR="$(resolve_install_dir "$_os" "$_arch")"
+
+    # Resolve latest version via GitHub release redirect to avoid API rate limits
+    _version="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "$BASE_URL/latest" \
+        | sed 's#.*/##')"
 
     if [ -z "$_version" ]; then
         err "Failed to determine latest version."
@@ -61,33 +62,69 @@ main() {
     mv "$_tmp/getcli" "$INSTALL_DIR/getcli"
     chmod +x "$INSTALL_DIR/getcli"
 
-    say "Installed getcli to $INSTALL_DIR/getcli"
+    say "Installed to $INSTALL_DIR/getcli"
 
     # Check PATH
     case ":$PATH:" in
         *":$INSTALL_DIR:"*) ;;
         *)
-            say ""
-            say "Warning: $INSTALL_DIR is not in your PATH."
+            newline
+            warn "$INSTALL_DIR is not in your PATH."
             say "Add it by running:"
-            say ""
+            newline
             say "  export PATH=\"$INSTALL_DIR:\$PATH\""
-            say ""
+            newline
             say "To make it permanent, add the line above to ~/.bashrc, ~/.zshrc, or equivalent."
             ;;
     esac
 
-    say ""
+    newline
     say "Run 'getcli --help' to get started."
 }
 
 say() {
-    echo "getcli: $1"
+    printf '%s\n' "$1"
 }
 
 err() {
-    say "error: $1" >&2
+    printf 'Error: %s\n' "$1" >&2
     exit 1
+}
+
+warn() {
+    printf 'Warning: %s\n' "$1" >&2
+}
+
+newline() {
+    printf '\n'
+}
+
+resolve_install_dir() {
+    if [ -n "${GETCLI_INSTALL_DIR:-}" ]; then
+        printf '%s\n' "$GETCLI_INSTALL_DIR"
+        return
+    fi
+
+    case "$1:$2" in
+        Darwin:arm64|Darwin:aarch64)
+            for _dir in /opt/homebrew/bin /usr/local/bin; do
+                if [ -d "$_dir" ] && [ -w "$_dir" ]; then
+                    printf '%s\n' "$_dir"
+                    return
+                fi
+            done
+            ;;
+        Darwin:x86_64)
+            for _dir in /usr/local/bin /opt/homebrew/bin; do
+                if [ -d "$_dir" ] && [ -w "$_dir" ]; then
+                    printf '%s\n' "$_dir"
+                    return
+                fi
+            done
+            ;;
+    esac
+
+    printf '%s\n' "$HOME/.local/bin"
 }
 
 need_cmd() {
