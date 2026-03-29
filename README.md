@@ -99,20 +99,24 @@ getcli completions fish > ~/.config/fish/completions/getcli.fish
 getcli completions powershell >> $PROFILE
 ```
 
-## Skill templates
+## Agent skill
 
-Agent instruction templates for popular AI coding tools are available in the `skills/` directory:
+This repo ships a standard Agent Skills package in `skills/getcli/`.
 
-- `skills/claude-code.md` — Claude Code
-- `skills/codex.md` — OpenAI Codex
-- `skills/gemini-cli.md` — Gemini CLI
+Install it with the Skills CLI:
+
+```bash
+npx skills add theagentservice/getcli --skill getcli
+```
+
+Once installed, agents can use `getcli` to discover, install, and verify developer CLIs instead of guessing vendor-specific install commands.
 
 ## Architecture
 
 Monorepo with three components:
 
 - `cli/` — Rust CLI (clap, serde, rust-embed)
-- `web/` — Next.js website deployed to Cloudflare Pages
+- `web/` — Next.js website deployed to Cloudflare Workers with OpenNext
 - `manifests/` — YAML tool definitions embedded at compile time
 
 ## License

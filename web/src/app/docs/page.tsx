@@ -150,8 +150,8 @@ export default function DocsPage() {
             <h2 className="text-xl font-semibold">Registry</h2>
             <p className="mt-2 text-sm text-gray-600">
               Tool definitions live in YAML manifests and are embedded into the CLI at build time.
-              Browse the current catalog on the registry page or add a new manifest under{" "}
-              <code>manifests/</code>.
+              Browse the current catalog on the registry page, open dedicated CLI landing pages, or
+              add a new manifest under <code>manifests/</code>.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
@@ -159,6 +159,12 @@ export default function DocsPage() {
                 className="rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-700"
               >
                 Browse Registry
+              </Link>
+              <Link
+                href="/cli/github"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
+              >
+                Example CLI Page
               </Link>
               <a
                 href="https://github.com/theagentservice/getcli"
@@ -172,12 +178,18 @@ export default function DocsPage() {
           </section>
 
           <section className="rounded-lg border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold">Skill Templates</h2>
+            <h2 className="text-xl font-semibold">Agent Skill</h2>
             <p className="mt-2 text-sm text-gray-600">
-              Templates for Claude Code, Codex, and Gemini CLI live in the repository under{" "}
-              <code>skills/</code>. They tell agents to use getcli instead of guessing install
-              commands.
+              This repository includes a standard Agent Skills package at <code>skills/getcli</code>.
+              Install it with the Skills CLI so supported agents will route CLI installation and
+              verification through getcli instead of guessing vendor-specific install commands.
             </p>
+            <div className="mt-4">
+              <CodeBlock
+                code={"npx skills add theagentservice/getcli --skill getcli"}
+                copyLabel="Copy install command"
+              />
+            </div>
           </section>
         </div>
       </div>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "getcli"
+  short_description: "Discover, install, and verify developer CLIs with one command"
+  default_prompt: "Use getcli to find, install, and verify the CLI tool needed for this task before continuing."
