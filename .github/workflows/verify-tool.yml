@@ -1,0 +1,85 @@
+name: Verify Tool
+
+on:
+  workflow_dispatch:
+    inputs:
+      tool_id:
+        description: "Tool id to verify, such as github or vercel"
+        required: true
+        type: string
+  pull_request:
+    branches: [main]
+    paths:
+      - "manifests/**"
+      - "cli/**"
+      - "scripts/build-tool-verification-matrix.mjs"
+      - "scripts/verify-tool.mjs"
+      - ".github/workflows/verify-tool.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    name: Plan Verification Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      count: ${{ steps.matrix.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - id: matrix
+        env:
+          TOOL_ID: ${{ github.event.inputs.tool_id }}
+          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: node scripts/build-tool-verification-matrix.mjs
+
+  verify:
+    name: Verify ${{ matrix.tool_id }}
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: cli
+          key: verify-${{ matrix.os }}-${{ matrix.tool_id }}
+
+      - name: Build getcli
+        run: cargo build --release --manifest-path cli/Cargo.toml
+
+      - name: Add getcli to PATH
+        shell: bash
+        run: echo "$GITHUB_WORKSPACE/cli/target/release" >> "$GITHUB_PATH"
+
+      - name: Verify tool with real install and smoke checks
+        env:
+          GETCLI_BIN: ${{ github.workspace }}/cli/target/release/getcli
+        run: node scripts/verify-tool.mjs "${{ matrix.tool_id }}"
+
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tool-verification-${{ matrix.tool_id }}
+          path: .artifacts/tool-verification/${{ matrix.tool_id }}.json
