@@ -24,8 +24,8 @@ export default function RegistryPage() {
   });
 
   return (
-    <main className="min-h-screen p-8 font-[family-name:var(--font-geist-mono)]">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-screen px-4 py-8 sm:px-8 font-[family-name:var(--font-geist-mono)]">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-8">
           <Link href="/" className="text-gray-500 hover:text-gray-900 text-sm">
             &larr; getcli

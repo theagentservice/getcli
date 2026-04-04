@@ -103,12 +103,12 @@ export default function DocsPage() {
   };
 
   return (
-    <main className="min-h-screen p-8 font-[family-name:var(--font-geist-mono)]">
+    <main className="min-h-screen px-4 py-8 sm:px-8 font-[family-name:var(--font-geist-mono)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-10">
           <Link href="/" className="text-gray-500 hover:text-gray-900 text-sm">
             &larr; getcli
@@ -155,6 +155,18 @@ export default function DocsPage() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
+                href="/add-cli"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
+              >
+                Add a CLI
+              </Link>
+              <Link
+                href="/cli"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
+              >
+                Browse CLI Guides
+              </Link>
+              <Link
                 href="/registry"
                 className="rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-700"
               >
@@ -166,14 +178,6 @@ export default function DocsPage() {
               >
                 Example CLI Page
               </Link>
-              <a
-                href="https://github.com/theagentservice/getcli"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
-              >
-                GitHub Repository
-              </a>
             </div>
           </section>
 
@@ -185,10 +189,18 @@ export default function DocsPage() {
               verification through getcli instead of guessing vendor-specific install commands.
             </p>
             <div className="mt-4">
-              <CodeBlock
-                code={"npx skills add theagentservice/getcli --skill getcli"}
-                copyLabel="Copy install command"
-              />
+              <CodeBlock code={"npx skills add theagentservice/getcli --skill getcli"} />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <Link
+                href="/agent-friendly"
+                className="text-sm text-gray-900 underline underline-offset-4"
+              >
+                Read the agent-friendly rubric
+              </Link>
+              <Link href="/demos" className="text-sm text-gray-900 underline underline-offset-4">
+                Browse shareable demos
+              </Link>
             </div>
           </section>
         </div>

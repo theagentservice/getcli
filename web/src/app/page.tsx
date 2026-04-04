@@ -95,17 +95,38 @@ export default function Home() {
           url: "https://theagentservice.com",
         },
       },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "What does getcli do?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "getcli helps developers and agents discover, install, and verify command-line tools through one consistent workflow.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What makes a CLI agent-friendly?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Agent-friendly CLIs usually support structured output, non-interactive usage, discoverable help, and automation-friendly auth or preview flows.",
+            },
+          },
+        ],
+      },
     ],
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 font-[family-name:var(--font-geist-mono)]">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:px-8 font-[family-name:var(--font-geist-mono)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="mx-auto max-w-3xl text-center">
-        <h1 className="text-5xl font-bold tracking-tight mb-4">getcli</h1>
+      <div className="mx-auto w-full max-w-4xl text-center">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">getcli</h1>
         <p className="text-lg text-gray-600 mb-8">
           A unified installer for agent-friendly CLIs
         </p>
@@ -145,6 +166,20 @@ export default function Home() {
           <p className="mt-2 text-sm text-gray-600">
             Browse install guides built for specific tools, not just the generic registry.
           </p>
+          <div className="mt-4 flex flex-wrap gap-4">
+            <Link href="/cli" className="text-sm text-gray-900 underline underline-offset-4">
+              Browse all CLI guides
+            </Link>
+            <Link href="/demos" className="text-sm text-gray-900 underline underline-offset-4">
+              See shareable demos
+            </Link>
+            <Link
+              href="/agent-friendly"
+              className="text-sm text-gray-900 underline underline-offset-4"
+            >
+              See what “agent-friendly” means
+            </Link>
+          </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {featuredTools.map((tool) => (
               <Link
@@ -178,6 +213,12 @@ export default function Home() {
             className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
           >
             Browse Registry
+          </Link>
+          <Link
+            href="/demos"
+            className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+          >
+            Demos
           </Link>
           <a
             href="https://github.com/theagentservice/getcli"

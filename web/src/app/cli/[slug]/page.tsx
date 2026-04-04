@@ -10,8 +10,12 @@ import {
   installCommand,
   installLabel,
   relatedTools,
+  toolChannelSummary,
   toolPageDescription,
+  toolPageKeywords,
   toolPageTitle,
+  toolPlatformInstallCopy,
+  toolVerificationCopy,
 } from "@/lib/tool-pages";
 
 type ToolPageParams = {
@@ -42,13 +46,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   return {
     title,
     description,
-    keywords: [
-      `${tool.display_name} install`,
-      `${tool.command} install`,
-      `${tool.display_name} CLI`,
-      ...tool.tags,
-      "getcli",
-    ],
+    keywords: toolPageKeywords(tool),
     alternates: {
       canonical: `/cli/${tool.id}`,
     },
@@ -79,6 +77,7 @@ export default async function ToolLandingPage({ params }: ToolPageProps) {
   const defaultInstallCommand = installCommand(tool.install_default, tool.install_default_package);
   const related = relatedTools(tool, tools);
   const description = toolPageDescription(tool);
+  const aliases = tool.aliases.length > 0 ? tool.aliases.join(", ") : "None";
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -132,18 +131,19 @@ export default async function ToolLandingPage({ params }: ToolPageProps) {
   };
 
   return (
-    <main className="min-h-screen p-8 font-[family-name:var(--font-geist-mono)]">
+    <main className="min-h-screen px-4 py-8 sm:px-8 font-[family-name:var(--font-geist-mono)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="mx-auto max-w-3xl space-y-8">
+      <div className="mx-auto max-w-4xl space-y-8">
         <div>
           <Link href="/registry" className="text-sm text-gray-500 hover:text-gray-900">
             &larr; Registry
           </Link>
           <h1 className="mt-3 text-4xl font-bold tracking-tight">{toolPageTitle(tool)}</h1>
           <p className="mt-3 text-base text-gray-600">{content.intro}</p>
+          <p className="mt-3 text-sm text-gray-500">{toolPlatformInstallCopy(tool)}</p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-gray-600">
             <span className="rounded-full bg-gray-100 px-3 py-1">{tool.command}</span>
             <span className="rounded-full bg-gray-100 px-3 py-1">
@@ -169,6 +169,23 @@ export default async function ToolLandingPage({ params }: ToolPageProps) {
           <CodeBlock code={installCode} className="mt-4" />
         </section>
 
+        <section className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-lg border border-gray-200 p-6">
+            <h2 className="text-base font-semibold">Command</h2>
+            <code className="mt-3 block text-sm text-gray-900">{tool.command}</code>
+          </div>
+
+          <div className="rounded-lg border border-gray-200 p-6">
+            <h2 className="text-base font-semibold">Aliases</h2>
+            <p className="mt-3 text-sm text-gray-600">{aliases}</p>
+          </div>
+
+          <div className="rounded-lg border border-gray-200 p-6">
+            <h2 className="text-base font-semibold">Default Channel</h2>
+            <p className="mt-3 text-sm text-gray-600">{installLabel(tool.install_default)}</p>
+          </div>
+        </section>
+
         <section className="rounded-lg border border-gray-200 p-6">
           <h2 className="text-xl font-semibold">Why Use getcli for {tool.display_name}?</h2>
           <p className="mt-2 text-sm text-gray-600">{content.whyGetcli}</p>
@@ -183,7 +200,10 @@ export default async function ToolLandingPage({ params }: ToolPageProps) {
 
         <section className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold">Install Options</h2>
+            <h2 className="text-xl font-semibold">
+              How to Install {tool.display_name} on {formatPlatforms(tool.platforms)}
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">{toolChannelSummary(tool)}</p>
             <div className="mt-4 space-y-4 text-sm text-gray-700">
               <div className="rounded-lg bg-gray-50 p-4">
                 <p className="font-medium">getcli</p>
@@ -279,7 +299,16 @@ export default async function ToolLandingPage({ params }: ToolPageProps) {
         </section>
 
         <section className="rounded-lg border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold">Example Commands</h2>
+          <h2 className="text-xl font-semibold">How to Verify {tool.display_name} After Install</h2>
+          <p className="mt-2 text-sm text-gray-600">{toolVerificationCopy(tool)}</p>
+          <CodeBlock
+            code={[`getcli doctor ${tool.id}`, `${tool.command} --version`].join("\n")}
+            className="mt-4"
+          />
+        </section>
+
+        <section className="rounded-lg border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold">Example {tool.display_name} Commands</h2>
           <p className="mt-2 text-sm text-gray-600">
             These are representative commands from the registry manifest for {tool.display_name}.
           </p>

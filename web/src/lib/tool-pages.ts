@@ -36,7 +36,48 @@ export function toolPageTitle(tool: Tool) {
 }
 
 export function toolPageDescription(tool: Tool) {
-  return `${toolPageTitle(tool)}. Discover install options, prerequisites, auth notes, verification steps, and examples for ${tool.command}.`;
+  return `${toolPageTitle(tool)}. Learn how to install ${tool.display_name} on ${formatPlatforms(tool.platforms)}, verify ${tool.command}, review prerequisites, and compare install channels.`;
+}
+
+export function toolPageKeywords(tool: Tool) {
+  const keywords = new Set<string>([
+    `${tool.display_name} install`,
+    `${tool.command} install`,
+    `${tool.display_name} CLI`,
+    `${tool.display_name} download`,
+    `install ${tool.display_name}`,
+    `install ${tool.command}`,
+    ...tool.tags,
+    "getcli",
+  ]);
+
+  for (const alias of tool.aliases) {
+    keywords.add(`${alias} install`);
+    keywords.add(`${alias} CLI`);
+  }
+
+  for (const platform of tool.platforms) {
+    const label = platform === "macos" ? "mac" : platform;
+    keywords.add(`${tool.display_name} ${label}`);
+    keywords.add(`install ${tool.display_name} on ${label}`);
+  }
+
+  return Array.from(keywords);
+}
+
+export function toolPlatformInstallCopy(tool: Tool) {
+  return `This guide covers installing ${tool.display_name} on ${formatPlatforms(tool.platforms)} and verifying that \`${tool.command}\` is ready for real automation work.`;
+}
+
+export function toolChannelSummary(tool: Tool) {
+  const channel = installLabel(tool.install_default);
+  const pkg = tool.install_default_package ? ` using package \`${tool.install_default_package}\`` : "";
+
+  return `${tool.display_name} defaults to ${channel}${pkg}, but getcli keeps the install and verification flow consistent even when teams mix package managers across machines.`;
+}
+
+export function toolVerificationCopy(tool: Tool) {
+  return `After install, verify ${tool.display_name} with \`getcli doctor ${tool.id}\` before you rely on \`${tool.command}\` inside CI, scripts, or agent workflows.`;
 }
 
 export function relatedTools(currentTool: Tool, allTools: Tool[]) {

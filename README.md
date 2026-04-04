@@ -1,10 +1,12 @@
 # getcli
 
-A unified installer for agent-friendly CLIs.
+The CLI package manager and bootstrap layer for AI coding agents.
 
-AI coding agents need CLI tools but have no standard way to discover, install, or verify them. getcli solves this with a curated registry and a single command interface.
+AI coding agents need a reliable way to discover, install, and verify developer CLIs without guessing vendor-specific commands. getcli provides a curated registry, a single install surface across common distribution channels, and verification checks for non-interactive workflows.
 
 ## Install
+
+Pick the channel you already use:
 
 ```bash
 # Shell (macOS / Linux)
@@ -23,16 +25,18 @@ cargo install getcli
 irm https://getcli.dev/install.ps1 | iex
 ```
 
-## Usage
+## Bootstrap workflow
+
+Use `getcli` to find a tool, install it, and verify it before an agent depends on it.
 
 ```bash
-# Search for tools
+# Search the registry
 getcli search deploy
 
-# Show details
+# Inspect a tool
 getcli info vercel
 
-# Install a tool
+# Install it
 getcli install vercel --yes
 
 # Verify it works
