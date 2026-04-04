@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { faCircleCheck, faCircleMinus, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleMinus, faCircleQuestion, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import {
-  type AgentCapabilityStatus,
-  agentDimensions,
-  agentFriendlyTools,
-  capabilityLabel,
-} from "@/data/agent-friendly";
+  checklistDimensions,
+  verifiedChecklistTools,
+  type VerificationStatus,
+  verificationLabel,
+} from "@/data/tool-verification";
 import { absoluteUrl } from "@/lib/seo";
 
 const pageDescription =
-  "What makes a CLI agent-friendly: principles for automation, a command design checklist, and a scorecard of current registry tools.";
+  "What makes a CLI agent-friendly: principles for automation, a command design checklist, and a verified scorecard of current registry tools.";
 
 const principles = [
   {
@@ -94,16 +94,19 @@ export const metadata: Metadata = {
   },
 };
 
-function capabilityIcon(status: AgentCapabilityStatus) {
-  if (status === "yes") return faCircleCheck;
-  if (status === "partial") return faCircleMinus;
+function capabilityIcon(status: VerificationStatus) {
+  if (status === "supported") return faCircleCheck;
+  if (status === "inconclusive") return faCircleMinus;
+  if (status === "unverified") return faCircleQuestion;
   return faCircleXmark;
 }
 
-function capabilityIconClassName(status: AgentCapabilityStatus) {
-  if (status === "yes") return "text-green-600";
-  if (status === "partial") return "text-amber-500";
-  return "text-gray-400";
+function capabilityIconClassName(status: VerificationStatus) {
+  if (status === "supported") return "text-green-600";
+  if (status === "inconclusive") return "text-amber-500";
+  if (status === "unverified") return "text-slate-400";
+  if (status === "error") return "text-red-500";
+  return "text-gray-500";
 }
 
 export default function AgentFriendlyPage() {
@@ -192,9 +195,9 @@ export default function AgentFriendlyPage() {
             <div>
               <h2 className="text-xl font-semibold">3. Current Scorecard</h2>
               <p className="mt-2 text-sm text-gray-600">
-                These are getcli editorial scores, not vendor claims. The table is meant to show
-                capability coverage across our current dimensions, not a fake-precise numeric
-                ranking.
+                These are machine verification results for the command checklist above. Each row is
+                tied to a manifest entry and reflects the latest saved CI verification result we
+                have committed to the repo.
               </p>
             </div>
             <Link href="/registry" className="text-sm text-gray-900 underline underline-offset-4">
@@ -205,15 +208,19 @@ export default function AgentFriendlyPage() {
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-gray-700">
             <div className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
               <FontAwesomeIcon icon={faCircleCheck} className="text-green-600" />
-              <span>Supported</span>
+              <span>Verified</span>
             </div>
             <div className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
               <FontAwesomeIcon icon={faCircleMinus} className="text-amber-500" />
-              <span>Partial</span>
+              <span>Inconclusive</span>
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
+              <FontAwesomeIcon icon={faCircleQuestion} className="text-slate-400" />
+              <span>Unverified</span>
             </div>
             <div className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
               <FontAwesomeIcon icon={faCircleXmark} className="text-gray-400" />
-              <span>No</span>
+              <span>Not Observed</span>
             </div>
           </div>
 
@@ -222,23 +229,16 @@ export default function AgentFriendlyPage() {
               <thead>
                 <tr className="border-b border-gray-200 text-gray-600">
                   <th className="py-3 pr-4 font-medium">CLI</th>
-                  {agentDimensions.map((dimension) => (
+                  {checklistDimensions.map((dimension) => (
                     <th key={dimension.id} className="py-3 pr-4 font-medium">
-                      {dimension.id === "structured_output"
-                        ? "JSON"
-                        : dimension.id === "dry_run"
-                          ? "Dry Run"
-                          : dimension.id === "help_surface"
-                            ? "Help"
-                            : dimension.id === "agent_skills"
-                              ? "Skill"
-                              : dimension.label}
+                      {dimension.label}
                     </th>
                   ))}
+                  <th className="py-3 pr-4 font-medium">Verified At</th>
                 </tr>
               </thead>
               <tbody>
-                {agentFriendlyTools.map(({ tool, capabilities }) => (
+                {verifiedChecklistTools.map(({ tool, verification, checks }) => (
                   <tr key={tool.id} className="border-b border-gray-100 align-top">
                     <td className="py-4 pr-4">
                       <Link href={`/cli/${tool.id}`} className="font-medium hover:underline">
@@ -246,22 +246,23 @@ export default function AgentFriendlyPage() {
                       </Link>
                       <div className="mt-1 text-xs text-gray-500">{tool.command}</div>
                     </td>
-                    {agentDimensions.map((dimension) => (
+                    {checklistDimensions.map((dimension) => (
                       <td key={dimension.id} className="py-4 pr-4 text-gray-900">
                         <span
                           className="inline-flex items-center"
-                          title={capabilityLabel(capabilities[dimension.id])}
-                          aria-label={capabilityLabel(capabilities[dimension.id])}
+                          title={verificationLabel(checks[dimension.id].status)}
+                          aria-label={verificationLabel(checks[dimension.id].status)}
                         >
                           <FontAwesomeIcon
-                            icon={capabilityIcon(capabilities[dimension.id])}
-                            className={`text-lg ${capabilityIconClassName(
-                              capabilities[dimension.id]
-                            )}`}
+                            icon={capabilityIcon(checks[dimension.id].status)}
+                            className={`text-lg ${capabilityIconClassName(checks[dimension.id].status)}`}
                           />
                         </span>
                       </td>
                     ))}
+                    <td className="py-4 pr-4 text-xs text-gray-500">
+                      {verification ? verification.verified_at.slice(0, 10) : "Not yet"}
+                    </td>
                   </tr>
                 ))}
               </tbody>

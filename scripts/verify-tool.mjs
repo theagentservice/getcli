@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
+import { getVerificationSpec } from "../verification/specs.mjs";
 
 const repoRoot = process.cwd();
 const toolId = process.argv[2];
@@ -74,8 +75,40 @@ function maybeRunJson(command, args, label) {
   return { result, data };
 }
 
-function normalizeFlagProbe(value) {
-  return value ? "observed" : "not_observed";
+function probeStatus(observed, fallback = "not_supported") {
+  return observed ? "supported" : fallback;
+}
+
+function formatCommand(command, args) {
+  return [command, ...args];
+}
+
+function normalizedText(result) {
+  return `${result.stdout}\n${result.stderr}`.toLowerCase();
+}
+
+function runCheck(command, spec) {
+  const step = runCommand(command, spec.args);
+  const invoked = formatCommand(command, spec.args);
+
+  if (spec.kind === "exit_code") {
+    return {
+      status: probeStatus(step.status === 0),
+      command: invoked,
+      evidence: `exit code ${step.status}`,
+    };
+  }
+
+  const helpText = normalizedText(step);
+  const observed = spec.matchers.some((matcher) => matcher.test(helpText));
+
+  return {
+    status: probeStatus(observed),
+    command: invoked,
+    evidence: observed
+      ? `${spec.expectedLabel} was observed in help output`
+      : `${spec.expectedLabel} was not observed in help output`,
+  };
 }
 
 function writeSummary(markdown) {
@@ -117,42 +150,24 @@ const installResult = installStep.data;
 const postDoctorStep = maybeRunJson(getcliBin, ["doctor", toolId, "--json"], "post-install doctor");
 const postDoctor = postDoctorStep.data;
 
-const versionStep = runCommand(manifest.command, ["--version"]);
-const helpStep = runCommand(manifest.command, ["--help"]);
-const schemaStep = runCommand(manifest.command, ["schema", "--help"]);
-
-const helpText = `${helpStep.stdout}\n${helpStep.stderr}`.toLowerCase();
-
-const probes = {
-  help: helpStep.status === 0,
-  version: versionStep.status === 0,
-  json_flag: /(^|\s)--json(\s|$|[=,])|--format(\s|$|[=,])/.test(helpText),
-  yes_flag: /(^|\s)--yes(\s|$|[=,])/.test(helpText),
-  dry_run_flag: /(^|\s)--dry-run(\s|$|[=,])/.test(helpText),
-  schema_command: schemaStep.status === 0 || /\bschema\b/.test(helpText),
+const verificationSpec = getVerificationSpec(toolId);
+const checks = {
+  help: runCheck(manifest.command, verificationSpec.help),
+  version: runCheck(manifest.command, verificationSpec.version),
+  json: runCheck(manifest.command, verificationSpec.json),
+  yes: runCheck(manifest.command, verificationSpec.yes),
+  dry_run: runCheck(manifest.command, verificationSpec.dry_run),
+  schema: runCheck(manifest.command, verificationSpec.schema),
 };
 
 const summary = {
   tool_id: toolId,
-  command: manifest.command,
-  selected_method: selectedMethod,
+  verified_at: new Date().toISOString(),
+  runner_os: process.env.RUNNER_OS || process.platform,
+  install_method: selectedMethod,
   install_status: installResult.status ?? "unknown",
-  install_result: installResult,
   doctor_passed: Boolean(postDoctor.passed),
-  doctor_issues: postDoctor.issues ?? [],
-  probes: {
-    help: normalizeFlagProbe(probes.help),
-    version: normalizeFlagProbe(probes.version),
-    json_flag: normalizeFlagProbe(probes.json_flag),
-    yes_flag: normalizeFlagProbe(probes.yes_flag),
-    dry_run_flag: normalizeFlagProbe(probes.dry_run_flag),
-    schema_command: normalizeFlagProbe(probes.schema_command),
-  },
-  command_checks: {
-    version_exit_code: versionStep.status,
-    help_exit_code: helpStep.status,
-    schema_exit_code: schemaStep.status,
-  },
+  checks,
 };
 
 const artifactDir = path.join(repoRoot, ".artifacts", "tool-verification");
@@ -169,19 +184,19 @@ writeSummary("| Check | Result |");
 writeSummary("| --- | --- |");
 writeSummary(`| \`getcli install\` | ${installResult.status ?? "unknown"} |`);
 writeSummary(`| \`getcli doctor\` | ${postDoctor.passed ? "pass" : "fail"} |`);
-writeSummary(`| \`${manifest.command} --version\` | ${probes.version ? "pass" : "fail"} |`);
-writeSummary(`| \`${manifest.command} --help\` | ${probes.help ? "pass" : "fail"} |`);
-writeSummary(`| JSON flag probe | ${summary.probes.json_flag} |`);
-writeSummary(`| --yes probe | ${summary.probes.yes_flag} |`);
-writeSummary(`| --dry-run probe | ${summary.probes.dry_run_flag} |`);
-writeSummary(`| schema probe | ${summary.probes.schema_command} |`);
+writeSummary(`| \`${checks.version.command.join(" ")}\` | ${checks.version.status} |`);
+writeSummary(`| \`${checks.help.command.join(" ")}\` | ${checks.help.status} |`);
+writeSummary(`| \`${checks.json.command.join(" ")}\` | ${checks.json.status} |`);
+writeSummary(`| \`${checks.yes.command.join(" ")}\` | ${checks.yes.status} |`);
+writeSummary(`| \`${checks.dry_run.command.join(" ")}\` | ${checks.dry_run.status} |`);
+writeSummary(`| \`${checks.schema.command.join(" ")}\` | ${checks.schema.status} |`);
 
 console.log(JSON.stringify(summary, null, 2));
 
 const hasCriticalFailure =
   !postDoctor.passed
-  || !probes.help
-  || !probes.version
+  || checks.help.status !== "supported"
+  || checks.version.status !== "supported"
   || !["installed", "already_installed"].includes(installResult.status ?? "");
 
 if (hasCriticalFailure) {

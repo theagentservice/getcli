@@ -14,6 +14,7 @@ on:
       - "cli/**"
       - "scripts/build-tool-verification-matrix.mjs"
       - "scripts/verify-tool.mjs"
+      - "verification/specs.mjs"
       - ".github/workflows/verify-tool.yml"
 
 permissions:

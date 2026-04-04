@@ -6,12 +6,12 @@
     "node": ">=22"
   },
   "scripts": {
-    "predev": "node scripts/generate-registry.mjs",
+    "predev": "node scripts/generate-registry.mjs && node ../scripts/generate-tool-verification.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/generate-registry.mjs",
+    "prebuild": "node scripts/generate-registry.mjs && node ../scripts/generate-tool-verification.mjs",
     "build": "next build",
     "start": "next start",
-    "prelint": "node scripts/generate-registry.mjs",
+    "prelint": "node scripts/generate-registry.mjs && node ../scripts/generate-tool-verification.mjs",
     "lint": "eslint .",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
