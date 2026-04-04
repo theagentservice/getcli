@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, appendFileSync } from "node:fs";
 import path from "node:path";
 
 const repoRoot = process.cwd();
@@ -83,27 +83,8 @@ const records = resolveRecords();
 const matrix = { include: records };
 
 if (process.env.GITHUB_OUTPUT) {
-  execFileSync(
-    "python3",
-    [
-      "-c",
-      [
-        "import json, os",
-        "matrix = json.dumps(json.loads(os.environ['MATRIX_JSON']))",
-        "with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:",
-        "    fh.write(f'matrix={matrix}\\n')",
-        "    fh.write(f'count={os.environ[\"COUNT\"]}\\n')",
-      ].join("; "),
-    ],
-    {
-      env: {
-        ...process.env,
-        MATRIX_JSON: JSON.stringify(matrix),
-        COUNT: String(records.length),
-      },
-      stdio: "inherit",
-    }
-  );
+  appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify(matrix)}\n`, "utf8");
+  appendFileSync(process.env.GITHUB_OUTPUT, `count=${records.length}\n`, "utf8");
 } else {
   console.log(JSON.stringify(matrix, null, 2));
 }
