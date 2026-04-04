@@ -35,6 +35,29 @@ function runCommand(command, args, options = {}) {
 }
 
 function parseJsonResult(result, label) {
+  const candidates = [];
+  const stdout = result.stdout.trim();
+  const combined = `${result.stdout}\n${result.stderr}`
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (stdout) {
+    candidates.push(stdout);
+  }
+
+  for (const line of combined.reverse()) {
+    if (line.startsWith("{") || line.startsWith("[")) {
+      candidates.push(line);
+    }
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate);
+    } catch {}
+  }
+
   try {
     return JSON.parse(result.stdout);
   } catch (error) {
