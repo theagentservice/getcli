@@ -23,6 +23,8 @@ export interface ToolVerificationResult {
   install_method: string;
   install_status: string;
   doctor_passed: boolean;
+  failure_stage?: string;
+  failure_message?: string;
   checks: Record<ChecklistDimensionId, VerificationCheck>;
 }
 

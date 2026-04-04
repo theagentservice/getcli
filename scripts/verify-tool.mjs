@@ -13,6 +13,7 @@ if (!toolId) {
 
 const getcliBin = process.env.GETCLI_BIN?.trim()
   || path.join(repoRoot, "cli", "target", "release", process.platform === "win32" ? "getcli.exe" : "getcli");
+const artifactDir = path.join(repoRoot, ".artifacts", "tool-verification");
 
 function runCommand(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -119,86 +120,166 @@ function writeSummary(markdown) {
   appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${markdown}\n`, "utf8");
 }
 
-const infoStep = maybeRunJson(getcliBin, ["info", toolId, "--json"], "info");
-const manifest = infoStep.data;
-
-const preDoctorStep = maybeRunJson(getcliBin, ["doctor", toolId, "--json"], "pre-install doctor");
-const preDoctor = preDoctorStep.data;
-
-const supportedAvailableInstallers = (preDoctor.installers ?? [])
-  .filter((installer) => installer.supported_by_tool && installer.available)
-  .map((installer) => installer.name);
-
-const defaultMethod = manifest.install?.default?.type;
-const selectedMethod = supportedAvailableInstallers.includes(defaultMethod)
-  ? defaultMethod
-  : supportedAvailableInstallers[0];
-
-if (!selectedMethod) {
-  console.error(`No supported installer is available for ${toolId}`);
-  process.exit(1);
+function writeArtifact(summary) {
+  mkdirSync(artifactDir, { recursive: true });
+  writeFileSync(path.join(artifactDir, `${toolId}.json`), `${JSON.stringify(summary, null, 2)}\n`, "utf8");
 }
 
-const installArgs = ["install", toolId, "--yes", "--json"];
-if (selectedMethod !== defaultMethod) {
-  installArgs.push("--method", selectedMethod);
+function errorChecks(command) {
+  const verificationSpec = getVerificationSpec(toolId);
+
+  return {
+    help: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.help.args),
+      evidence: "Verification failed before this check completed",
+    },
+    version: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.version.args),
+      evidence: "Verification failed before this check completed",
+    },
+    json: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.json.args),
+      evidence: "Verification failed before this check completed",
+    },
+    yes: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.yes.args),
+      evidence: "Verification failed before this check completed",
+    },
+    dry_run: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.dry_run.args),
+      evidence: "Verification failed before this check completed",
+    },
+    schema: {
+      status: "error",
+      command: formatCommand(command, verificationSpec.schema.args),
+      evidence: "Verification failed before this check completed",
+    },
+  };
 }
 
-const installStep = maybeRunJson(getcliBin, installArgs, "install");
-const installResult = installStep.data;
+function writeFailureSummary({ stage, error, manifest, installMethod, installStatus }) {
+  const summary = {
+    tool_id: toolId,
+    verified_at: new Date().toISOString(),
+    runner_os: process.env.RUNNER_OS || process.platform,
+    install_method: installMethod ?? "",
+    install_status: installStatus ?? "error",
+    doctor_passed: false,
+    failure_stage: stage,
+    failure_message: error instanceof Error ? error.message : String(error),
+    checks: errorChecks(manifest?.command ?? toolId),
+  };
 
-const postDoctorStep = maybeRunJson(getcliBin, ["doctor", toolId, "--json"], "post-install doctor");
-const postDoctor = postDoctorStep.data;
+  writeArtifact(summary);
+  writeSummary(`## Tool Verification: \`${toolId}\``);
+  writeSummary(`- Failure stage: \`${stage}\``);
+  writeSummary(`- Failure message: \`${summary.failure_message}\``);
+  console.log(JSON.stringify(summary, null, 2));
+}
 
-const verificationSpec = getVerificationSpec(toolId);
-const checks = {
-  help: runCheck(manifest.command, verificationSpec.help),
-  version: runCheck(manifest.command, verificationSpec.version),
-  json: runCheck(manifest.command, verificationSpec.json),
-  yes: runCheck(manifest.command, verificationSpec.yes),
-  dry_run: runCheck(manifest.command, verificationSpec.dry_run),
-  schema: runCheck(manifest.command, verificationSpec.schema),
-};
+let currentStage = "info";
+let manifest;
+let selectedMethod = "";
+let installStatus = "error";
 
-const summary = {
-  tool_id: toolId,
-  verified_at: new Date().toISOString(),
-  runner_os: process.env.RUNNER_OS || process.platform,
-  install_method: selectedMethod,
-  install_status: installResult.status ?? "unknown",
-  doctor_passed: Boolean(postDoctor.passed),
-  checks,
-};
+try {
+  const infoStep = maybeRunJson(getcliBin, ["info", toolId, "--json"], "info");
+  manifest = infoStep.data;
 
-const artifactDir = path.join(repoRoot, ".artifacts", "tool-verification");
-mkdirSync(artifactDir, { recursive: true });
-writeFileSync(path.join(artifactDir, `${toolId}.json`), `${JSON.stringify(summary, null, 2)}\n`, "utf8");
+  currentStage = "pre-install doctor";
+  const preDoctorStep = maybeRunJson(getcliBin, ["doctor", toolId, "--json"], "pre-install doctor");
+  const preDoctor = preDoctorStep.data;
 
-writeSummary(`## Tool Verification: \`${toolId}\``);
-writeSummary(`- Runner command: \`${manifest.command}\``);
-writeSummary(`- Install method used: \`${selectedMethod}\``);
-writeSummary(`- Install result: \`${installResult.status ?? "unknown"}\``);
-writeSummary(`- Doctor passed: \`${postDoctor.passed ? "yes" : "no"}\``);
-writeSummary("");
-writeSummary("| Check | Result |");
-writeSummary("| --- | --- |");
-writeSummary(`| \`getcli install\` | ${installResult.status ?? "unknown"} |`);
-writeSummary(`| \`getcli doctor\` | ${postDoctor.passed ? "pass" : "fail"} |`);
-writeSummary(`| \`${checks.version.command.join(" ")}\` | ${checks.version.status} |`);
-writeSummary(`| \`${checks.help.command.join(" ")}\` | ${checks.help.status} |`);
-writeSummary(`| \`${checks.json.command.join(" ")}\` | ${checks.json.status} |`);
-writeSummary(`| \`${checks.yes.command.join(" ")}\` | ${checks.yes.status} |`);
-writeSummary(`| \`${checks.dry_run.command.join(" ")}\` | ${checks.dry_run.status} |`);
-writeSummary(`| \`${checks.schema.command.join(" ")}\` | ${checks.schema.status} |`);
+  const supportedAvailableInstallers = (preDoctor.installers ?? [])
+    .filter((installer) => installer.supported_by_tool && installer.available)
+    .map((installer) => installer.name);
 
-console.log(JSON.stringify(summary, null, 2));
+  const defaultMethod = manifest.install?.default?.type;
+  selectedMethod = supportedAvailableInstallers.includes(defaultMethod)
+    ? defaultMethod
+    : supportedAvailableInstallers[0];
 
-const hasCriticalFailure =
-  !postDoctor.passed
-  || checks.help.status !== "supported"
-  || checks.version.status !== "supported"
-  || !["installed", "already_installed"].includes(installResult.status ?? "");
+  if (!selectedMethod) {
+    throw new Error(`No supported installer is available for ${toolId}`);
+  }
 
-if (hasCriticalFailure) {
+  const installArgs = ["install", toolId, "--yes", "--json"];
+  if (selectedMethod !== defaultMethod) {
+    installArgs.push("--method", selectedMethod);
+  }
+
+  currentStage = "install";
+  const installStep = maybeRunJson(getcliBin, installArgs, "install");
+  const installResult = installStep.data;
+  installStatus = installResult.status ?? "unknown";
+
+  currentStage = "post-install doctor";
+  const postDoctorStep = maybeRunJson(getcliBin, ["doctor", toolId, "--json"], "post-install doctor");
+  const postDoctor = postDoctorStep.data;
+
+  currentStage = "checklist probes";
+  const verificationSpec = getVerificationSpec(toolId);
+  const checks = {
+    help: runCheck(manifest.command, verificationSpec.help),
+    version: runCheck(manifest.command, verificationSpec.version),
+    json: runCheck(manifest.command, verificationSpec.json),
+    yes: runCheck(manifest.command, verificationSpec.yes),
+    dry_run: runCheck(manifest.command, verificationSpec.dry_run),
+    schema: runCheck(manifest.command, verificationSpec.schema),
+  };
+
+  const summary = {
+    tool_id: toolId,
+    verified_at: new Date().toISOString(),
+    runner_os: process.env.RUNNER_OS || process.platform,
+    install_method: selectedMethod,
+    install_status: installStatus,
+    doctor_passed: Boolean(postDoctor.passed),
+    checks,
+  };
+
+  writeArtifact(summary);
+
+  writeSummary(`## Tool Verification: \`${toolId}\``);
+  writeSummary(`- Runner command: \`${manifest.command}\``);
+  writeSummary(`- Install method used: \`${selectedMethod}\``);
+  writeSummary(`- Install result: \`${installStatus}\``);
+  writeSummary(`- Doctor passed: \`${postDoctor.passed ? "yes" : "no"}\``);
+  writeSummary("");
+  writeSummary("| Check | Result |");
+  writeSummary("| --- | --- |");
+  writeSummary(`| \`getcli install\` | ${installStatus} |`);
+  writeSummary(`| \`getcli doctor\` | ${postDoctor.passed ? "pass" : "fail"} |`);
+  writeSummary(`| \`${checks.version.command.join(" ")}\` | ${checks.version.status} |`);
+  writeSummary(`| \`${checks.help.command.join(" ")}\` | ${checks.help.status} |`);
+  writeSummary(`| \`${checks.json.command.join(" ")}\` | ${checks.json.status} |`);
+  writeSummary(`| \`${checks.yes.command.join(" ")}\` | ${checks.yes.status} |`);
+  writeSummary(`| \`${checks.dry_run.command.join(" ")}\` | ${checks.dry_run.status} |`);
+  writeSummary(`| \`${checks.schema.command.join(" ")}\` | ${checks.schema.status} |`);
+
+  console.log(JSON.stringify(summary, null, 2));
+
+  const hasCriticalFailure =
+    !postDoctor.passed
+    || checks.help.status !== "supported"
+    || checks.version.status !== "supported"
+    || !["installed", "already_installed"].includes(installStatus);
+
+  if (hasCriticalFailure) {
+    process.exit(1);
+  }
+} catch (error) {
+  writeFailureSummary({
+    stage: currentStage,
+    error,
+    manifest,
+    installMethod: selectedMethod,
+    installStatus,
+  });
   process.exit(1);
 }
