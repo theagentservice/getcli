@@ -5,6 +5,847 @@ import type { ToolVerificationResult } from "./tool-verification";
 
 export const toolVerificationResults: ToolVerificationResult[] = [
   {
+    "tool_id": "aws",
+    "verified_at": "2026-04-04T10:44:32.876Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "error",
+    "doctor_passed": false,
+    "failure_stage": "install",
+    "failure_message": "Unexpected end of JSON input",
+    "checks": {
+      "help": {
+        "status": "error",
+        "command": [
+          "aws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "version": {
+        "status": "error",
+        "command": [
+          "aws",
+          "--version"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "json": {
+        "status": "error",
+        "command": [
+          "aws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "yes": {
+        "status": "error",
+        "command": [
+          "aws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "dry_run": {
+        "status": "error",
+        "command": [
+          "aws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "schema": {
+        "status": "error",
+        "command": [
+          "aws",
+          "schema",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      }
+    }
+  },
+  {
+    "tool_id": "docker",
+    "verified_at": "2026-04-04T10:19:02.529Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "docker",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "docker",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "docker",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "docker",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "docker",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "supported",
+        "command": [
+          "docker",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      }
+    }
+  },
+  {
+    "tool_id": "feishu",
+    "verified_at": "2026-04-04T10:21:34.497Z",
+    "runner_os": "Linux",
+    "install_method": "npm",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "lark-cli",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "lark-cli",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "lark-cli",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "lark-cli",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "supported",
+        "command": [
+          "lark-cli",
+          "--help"
+        ],
+        "evidence": "--dry-run was observed in help output"
+      },
+      "schema": {
+        "status": "supported",
+        "command": [
+          "lark-cli",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      }
+    }
+  },
+  {
+    "tool_id": "firebase",
+    "verified_at": "2026-04-04T10:24:27.781Z",
+    "runner_os": "Linux",
+    "install_method": "npm",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "firebase",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "firebase",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "supported",
+        "command": [
+          "firebase",
+          "--help"
+        ],
+        "evidence": "--json or --format json was observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "firebase",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "firebase",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "supported",
+        "command": [
+          "firebase",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      }
+    }
+  },
+  {
+    "tool_id": "fly",
+    "verified_at": "2026-04-04T10:27:01.396Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "fly",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "fly",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "fly",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "fly",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "fly",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "fly",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
+      }
+    }
+  },
+  {
+    "tool_id": "github",
+    "verified_at": "2026-04-04T10:48:10.900Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "error",
+    "doctor_passed": false,
+    "failure_stage": "install",
+    "failure_message": "Unexpected end of JSON input",
+    "checks": {
+      "help": {
+        "status": "error",
+        "command": [
+          "gh",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "version": {
+        "status": "error",
+        "command": [
+          "gh",
+          "--version"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "json": {
+        "status": "error",
+        "command": [
+          "gh",
+          "repo",
+          "list",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "yes": {
+        "status": "error",
+        "command": [
+          "gh",
+          "repo",
+          "delete",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "dry_run": {
+        "status": "error",
+        "command": [
+          "gh",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "schema": {
+        "status": "error",
+        "command": [
+          "gh",
+          "schema",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      }
+    }
+  },
+  {
+    "tool_id": "google-workspace",
+    "verified_at": "2026-04-04T10:50:56.936Z",
+    "runner_os": "Linux",
+    "install_method": "npm",
+    "install_status": "error",
+    "doctor_passed": false,
+    "failure_stage": "install",
+    "failure_message": "Unexpected token 'a', \"\nadded 1 pa\"... is not valid JSON",
+    "checks": {
+      "help": {
+        "status": "error",
+        "command": [
+          "gws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "version": {
+        "status": "error",
+        "command": [
+          "gws",
+          "--version"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "json": {
+        "status": "error",
+        "command": [
+          "gws",
+          "sheets",
+          "spreadsheets",
+          "create",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "yes": {
+        "status": "error",
+        "command": [
+          "gws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "dry_run": {
+        "status": "error",
+        "command": [
+          "gws",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "schema": {
+        "status": "error",
+        "command": [
+          "gws",
+          "schema",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      }
+    }
+  },
+  {
+    "tool_id": "kubectl",
+    "verified_at": "2026-04-04T10:34:08.529Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": false,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "kubectl",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "not_supported",
+        "command": [
+          "kubectl",
+          "--version"
+        ],
+        "evidence": "exit code 1"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "kubectl",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "kubectl",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "kubectl",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "kubectl",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
+      }
+    }
+  },
+  {
+    "tool_id": "netlify",
+    "verified_at": "2026-04-04T10:37:00.883Z",
+    "runner_os": "Linux",
+    "install_method": "npm",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "netlify",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "netlify",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "netlify",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "netlify",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "netlify",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "supported",
+        "command": [
+          "netlify",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      }
+    }
+  },
+  {
+    "tool_id": "railway",
+    "verified_at": "2026-04-04T10:40:00.039Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "railway",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "railway",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "railway",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "railway",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "railway",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "railway",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 2"
+      }
+    }
+  },
+  {
+    "tool_id": "stripe",
+    "verified_at": "2026-04-04T10:53:46.473Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "stripe",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "stripe",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "stripe",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "stripe",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "stripe",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "stripe",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
+      }
+    }
+  },
+  {
+    "tool_id": "supabase",
+    "verified_at": "2026-04-04T10:56:45.371Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "supabase",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "supabase",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "supabase",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "supported",
+        "command": [
+          "supabase",
+          "--help"
+        ],
+        "evidence": "--yes was observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "supabase",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "supabase",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
+      }
+    }
+  },
+  {
+    "tool_id": "terraform",
+    "verified_at": "2026-04-04T10:59:44.363Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "error",
+    "doctor_passed": false,
+    "failure_stage": "install",
+    "failure_message": "Unexpected token '\u001b', \"\u001b[32m==>\u001b[\"... is not valid JSON",
+    "checks": {
+      "help": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "version": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "--version"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "json": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "yes": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "dry_run": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      },
+      "schema": {
+        "status": "error",
+        "command": [
+          "terraform",
+          "schema",
+          "--help"
+        ],
+        "evidence": "Verification failed before this check completed"
+      }
+    }
+  },
+  {
+    "tool_id": "turso",
+    "verified_at": "2026-04-04T11:02:53.149Z",
+    "runner_os": "macOS",
+    "install_method": "brew",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "turso",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "turso",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "turso",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "turso",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "not_supported",
+        "command": [
+          "turso",
+          "--help"
+        ],
+        "evidence": "--dry-run was not observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "turso",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
+      }
+    }
+  },
+  {
     "tool_id": "vercel",
     "verified_at": "2026-04-04T06:36:46Z",
     "runner_os": "ubuntu-latest",
@@ -60,6 +901,66 @@ export const toolVerificationResults: ToolVerificationResult[] = [
           "--help"
         ],
         "evidence": "schema command exited with code 1"
+      }
+    }
+  },
+  {
+    "tool_id": "wrangler",
+    "verified_at": "2026-04-04T11:06:04.769Z",
+    "runner_os": "Linux",
+    "install_method": "npm",
+    "install_status": "installed",
+    "doctor_passed": true,
+    "checks": {
+      "help": {
+        "status": "supported",
+        "command": [
+          "wrangler",
+          "--help"
+        ],
+        "evidence": "exit code 0"
+      },
+      "version": {
+        "status": "supported",
+        "command": [
+          "wrangler",
+          "--version"
+        ],
+        "evidence": "exit code 0"
+      },
+      "json": {
+        "status": "not_supported",
+        "command": [
+          "wrangler",
+          "--help"
+        ],
+        "evidence": "--json or --format json was not observed in help output"
+      },
+      "yes": {
+        "status": "not_supported",
+        "command": [
+          "wrangler",
+          "--help"
+        ],
+        "evidence": "--yes was not observed in help output"
+      },
+      "dry_run": {
+        "status": "supported",
+        "command": [
+          "wrangler",
+          "deploy",
+          "--help"
+        ],
+        "evidence": "--dry-run was observed in help output"
+      },
+      "schema": {
+        "status": "not_supported",
+        "command": [
+          "wrangler",
+          "schema",
+          "--help"
+        ],
+        "evidence": "exit code 1"
       }
     }
   }

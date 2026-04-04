@@ -1,0 +1,59 @@
+{
+  "tool_id": "firebase",
+  "verified_at": "2026-04-04T10:24:27.781Z",
+  "runner_os": "Linux",
+  "install_method": "npm",
+  "install_status": "installed",
+  "doctor_passed": true,
+  "checks": {
+    "help": {
+      "status": "supported",
+      "command": [
+        "firebase",
+        "--help"
+      ],
+      "evidence": "exit code 0"
+    },
+    "version": {
+      "status": "supported",
+      "command": [
+        "firebase",
+        "--version"
+      ],
+      "evidence": "exit code 0"
+    },
+    "json": {
+      "status": "supported",
+      "command": [
+        "firebase",
+        "--help"
+      ],
+      "evidence": "--json or --format json was observed in help output"
+    },
+    "yes": {
+      "status": "not_supported",
+      "command": [
+        "firebase",
+        "--help"
+      ],
+      "evidence": "--yes was not observed in help output"
+    },
+    "dry_run": {
+      "status": "not_supported",
+      "command": [
+        "firebase",
+        "--help"
+      ],
+      "evidence": "--dry-run was not observed in help output"
+    },
+    "schema": {
+      "status": "supported",
+      "command": [
+        "firebase",
+        "schema",
+        "--help"
+      ],
+      "evidence": "exit code 0"
+    }
+  }
+}

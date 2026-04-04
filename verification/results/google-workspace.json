@@ -1,0 +1,64 @@
+{
+  "tool_id": "google-workspace",
+  "verified_at": "2026-04-04T10:50:56.936Z",
+  "runner_os": "Linux",
+  "install_method": "npm",
+  "install_status": "error",
+  "doctor_passed": false,
+  "failure_stage": "install",
+  "failure_message": "Unexpected token 'a', \"\nadded 1 pa\"... is not valid JSON",
+  "checks": {
+    "help": {
+      "status": "error",
+      "command": [
+        "gws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "version": {
+      "status": "error",
+      "command": [
+        "gws",
+        "--version"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "json": {
+      "status": "error",
+      "command": [
+        "gws",
+        "sheets",
+        "spreadsheets",
+        "create",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "yes": {
+      "status": "error",
+      "command": [
+        "gws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "dry_run": {
+      "status": "error",
+      "command": [
+        "gws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "schema": {
+      "status": "error",
+      "command": [
+        "gws",
+        "schema",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    }
+  }
+}

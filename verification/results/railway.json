@@ -1,0 +1,59 @@
+{
+  "tool_id": "railway",
+  "verified_at": "2026-04-04T10:40:00.039Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "installed",
+  "doctor_passed": true,
+  "checks": {
+    "help": {
+      "status": "supported",
+      "command": [
+        "railway",
+        "--help"
+      ],
+      "evidence": "exit code 0"
+    },
+    "version": {
+      "status": "supported",
+      "command": [
+        "railway",
+        "--version"
+      ],
+      "evidence": "exit code 0"
+    },
+    "json": {
+      "status": "not_supported",
+      "command": [
+        "railway",
+        "--help"
+      ],
+      "evidence": "--json or --format json was not observed in help output"
+    },
+    "yes": {
+      "status": "not_supported",
+      "command": [
+        "railway",
+        "--help"
+      ],
+      "evidence": "--yes was not observed in help output"
+    },
+    "dry_run": {
+      "status": "not_supported",
+      "command": [
+        "railway",
+        "--help"
+      ],
+      "evidence": "--dry-run was not observed in help output"
+    },
+    "schema": {
+      "status": "not_supported",
+      "command": [
+        "railway",
+        "schema",
+        "--help"
+      ],
+      "evidence": "exit code 2"
+    }
+  }
+}

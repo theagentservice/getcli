@@ -1,0 +1,65 @@
+{
+  "tool_id": "github",
+  "verified_at": "2026-04-04T10:48:10.900Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "error",
+  "doctor_passed": false,
+  "failure_stage": "install",
+  "failure_message": "Unexpected end of JSON input",
+  "checks": {
+    "help": {
+      "status": "error",
+      "command": [
+        "gh",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "version": {
+      "status": "error",
+      "command": [
+        "gh",
+        "--version"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "json": {
+      "status": "error",
+      "command": [
+        "gh",
+        "repo",
+        "list",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "yes": {
+      "status": "error",
+      "command": [
+        "gh",
+        "repo",
+        "delete",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "dry_run": {
+      "status": "error",
+      "command": [
+        "gh",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "schema": {
+      "status": "error",
+      "command": [
+        "gh",
+        "schema",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    }
+  }
+}

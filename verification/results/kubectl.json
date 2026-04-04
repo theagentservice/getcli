@@ -1,0 +1,59 @@
+{
+  "tool_id": "kubectl",
+  "verified_at": "2026-04-04T10:34:08.529Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "installed",
+  "doctor_passed": false,
+  "checks": {
+    "help": {
+      "status": "supported",
+      "command": [
+        "kubectl",
+        "--help"
+      ],
+      "evidence": "exit code 0"
+    },
+    "version": {
+      "status": "not_supported",
+      "command": [
+        "kubectl",
+        "--version"
+      ],
+      "evidence": "exit code 1"
+    },
+    "json": {
+      "status": "not_supported",
+      "command": [
+        "kubectl",
+        "--help"
+      ],
+      "evidence": "--json or --format json was not observed in help output"
+    },
+    "yes": {
+      "status": "not_supported",
+      "command": [
+        "kubectl",
+        "--help"
+      ],
+      "evidence": "--yes was not observed in help output"
+    },
+    "dry_run": {
+      "status": "not_supported",
+      "command": [
+        "kubectl",
+        "--help"
+      ],
+      "evidence": "--dry-run was not observed in help output"
+    },
+    "schema": {
+      "status": "not_supported",
+      "command": [
+        "kubectl",
+        "schema",
+        "--help"
+      ],
+      "evidence": "exit code 1"
+    }
+  }
+}

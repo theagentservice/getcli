@@ -1,0 +1,59 @@
+{
+  "tool_id": "turso",
+  "verified_at": "2026-04-04T11:02:53.149Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "installed",
+  "doctor_passed": true,
+  "checks": {
+    "help": {
+      "status": "supported",
+      "command": [
+        "turso",
+        "--help"
+      ],
+      "evidence": "exit code 0"
+    },
+    "version": {
+      "status": "supported",
+      "command": [
+        "turso",
+        "--version"
+      ],
+      "evidence": "exit code 0"
+    },
+    "json": {
+      "status": "not_supported",
+      "command": [
+        "turso",
+        "--help"
+      ],
+      "evidence": "--json or --format json was not observed in help output"
+    },
+    "yes": {
+      "status": "not_supported",
+      "command": [
+        "turso",
+        "--help"
+      ],
+      "evidence": "--yes was not observed in help output"
+    },
+    "dry_run": {
+      "status": "not_supported",
+      "command": [
+        "turso",
+        "--help"
+      ],
+      "evidence": "--dry-run was not observed in help output"
+    },
+    "schema": {
+      "status": "not_supported",
+      "command": [
+        "turso",
+        "schema",
+        "--help"
+      ],
+      "evidence": "exit code 1"
+    }
+  }
+}

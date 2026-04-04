@@ -1,0 +1,61 @@
+{
+  "tool_id": "aws",
+  "verified_at": "2026-04-04T10:44:32.876Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "error",
+  "doctor_passed": false,
+  "failure_stage": "install",
+  "failure_message": "Unexpected end of JSON input",
+  "checks": {
+    "help": {
+      "status": "error",
+      "command": [
+        "aws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "version": {
+      "status": "error",
+      "command": [
+        "aws",
+        "--version"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "json": {
+      "status": "error",
+      "command": [
+        "aws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "yes": {
+      "status": "error",
+      "command": [
+        "aws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "dry_run": {
+      "status": "error",
+      "command": [
+        "aws",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "schema": {
+      "status": "error",
+      "command": [
+        "aws",
+        "schema",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    }
+  }
+}

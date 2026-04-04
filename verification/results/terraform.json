@@ -1,0 +1,61 @@
+{
+  "tool_id": "terraform",
+  "verified_at": "2026-04-04T10:59:44.363Z",
+  "runner_os": "macOS",
+  "install_method": "brew",
+  "install_status": "error",
+  "doctor_passed": false,
+  "failure_stage": "install",
+  "failure_message": "Unexpected token '\u001b', \"\u001b[32m==>\u001b[\"... is not valid JSON",
+  "checks": {
+    "help": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "version": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "--version"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "json": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "yes": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "dry_run": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    },
+    "schema": {
+      "status": "error",
+      "command": [
+        "terraform",
+        "schema",
+        "--help"
+      ],
+      "evidence": "Verification failed before this check completed"
+    }
+  }
+}
