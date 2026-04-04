@@ -5,7 +5,8 @@ display_name: Stripe CLI
 homepage: https://stripe.com/docs/stripe-cli
 description: Official CLI for Stripe — test webhooks, manage resources, and trigger events
 command: stripe
-aliases: []
+aliases:
+  - stripe-cli
 platforms:
   - macos
   - linux

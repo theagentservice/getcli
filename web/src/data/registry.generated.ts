@@ -95,6 +95,57 @@ export const tools: Tool[] = [
     ]
   },
   {
+    "id": "feishu",
+    "name": "feishu",
+    "display_name": "Lark / Feishu CLI",
+    "description": "Official CLI for Lark / Feishu Open Platform — messaging, docs, sheets, calendar, mail, and more",
+    "command": "lark-cli",
+    "homepage": "https://github.com/larksuite/cli",
+    "aliases": [
+      "lark",
+      "larksuite",
+      "lark-cli",
+      "feishu-cli"
+    ],
+    "platforms": [
+      "macos",
+      "linux",
+      "windows"
+    ],
+    "agent_friendly": true,
+    "supports_json": true,
+    "install_default": "npm",
+    "install_default_package": "@larksuite/cli",
+    "install_alternatives": [
+      {
+        "type": "binary",
+        "url": "https://github.com/larksuite/cli",
+        "note": "Build from source with Go and Python"
+      }
+    ],
+    "prerequisites": [
+      "node"
+    ],
+    "auth_notes": [
+      "Run `lark-cli config init --new` to create app credentials",
+      "Run `lark-cli auth login --recommend` to authorize user scopes",
+      "Use `lark-cli auth status` to verify the current login state"
+    ],
+    "tags": [
+      "feishu",
+      "lark",
+      "collaboration",
+      "productivity",
+      "messaging",
+      "docs"
+    ],
+    "examples": [
+      "lark-cli auth status",
+      "lark-cli calendar +agenda",
+      "lark-cli im +messages-send --chat-id oc_xxx --text \"Hello\""
+    ]
+  },
+  {
     "id": "firebase",
     "name": "firebase",
     "display_name": "Firebase CLI",
@@ -223,6 +274,63 @@ export const tools: Tool[] = [
       "gh repo list",
       "gh issue list",
       "gh pr create --title \"fix: typo\" --body \"Fixed a typo\""
+    ]
+  },
+  {
+    "id": "google-workspace",
+    "name": "google-workspace",
+    "display_name": "Google Workspace CLI",
+    "description": "CLI for Drive, Gmail, Calendar, Sheets, Docs, Chat, Admin, and more, with structured JSON output",
+    "command": "gws",
+    "homepage": "https://github.com/googleworkspace/cli",
+    "aliases": [
+      "gws",
+      "googleworkspace",
+      "googleworkspace-cli"
+    ],
+    "platforms": [
+      "macos",
+      "linux",
+      "windows"
+    ],
+    "agent_friendly": true,
+    "supports_json": true,
+    "install_default": "npm",
+    "install_default_package": "@googleworkspace/cli",
+    "install_alternatives": [
+      {
+        "type": "brew",
+        "package": "googleworkspace-cli"
+      },
+      {
+        "type": "binary",
+        "url": "https://github.com/googleworkspace/cli/releases",
+        "note": "Download a pre-built binary from GitHub Releases"
+      }
+    ],
+    "prerequisites": [
+      "node",
+      "google-cloud-project",
+      "google-account"
+    ],
+    "auth_notes": [
+      "Run `gws auth setup` for the fastest local setup when `gcloud` is installed",
+      "Run `gws auth login` after configuring OAuth credentials",
+      "CI and headless setups can use GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE or GOOGLE_WORKSPACE_CLI_TOKEN"
+    ],
+    "tags": [
+      "google",
+      "workspace",
+      "gmail",
+      "drive",
+      "docs",
+      "sheets",
+      "productivity"
+    ],
+    "examples": [
+      "gws auth setup",
+      "gws drive files list --params '{\"pageSize\": 5}'",
+      "gws sheets spreadsheets create --json '{\"properties\": {\"title\": \"Q1 Budget\"}}'"
     ]
   },
   {
@@ -368,7 +476,9 @@ export const tools: Tool[] = [
     "description": "Official CLI for Stripe — test webhooks, manage resources, and trigger events",
     "command": "stripe",
     "homepage": "https://stripe.com/docs/stripe-cli",
-    "aliases": [],
+    "aliases": [
+      "stripe-cli"
+    ],
     "platforms": [
       "macos",
       "linux",
@@ -623,28 +733,38 @@ export const allTags: string[] = [
   "build",
   "cloud",
   "cloudflare",
+  "collaboration",
   "containers",
   "database",
   "deploy",
   "devops",
+  "docs",
+  "drive",
   "edge",
+  "feishu",
   "fintech",
   "frontend",
   "git",
   "github",
+  "gmail",
   "google",
   "hosting",
   "iac",
   "infrastructure",
   "jamstack",
   "kubernetes",
+  "lark",
+  "messaging",
   "orchestration",
   "payments",
+  "productivity",
   "scm",
   "serverless",
+  "sheets",
   "sqlite",
   "stripe",
   "vcs",
   "webhooks",
-  "workers"
+  "workers",
+  "workspace"
 ];

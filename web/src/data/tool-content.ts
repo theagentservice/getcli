@@ -38,24 +38,24 @@ const toolPageContent: Record<string, ToolPageContent> = {
   },
   docker: {
     intro:
-      "Docker CLI is still the default entry point for local container builds, image inspection, Compose workflows, and registry authentication.",
+      "Docker CLI is the command surface most teams need for image builds, Compose workflows, registry auth, and container debugging.",
     whyGetcli:
-      "getcli makes Docker installation explicit and keeps the verification step close to the install step, which matters when agents depend on a working daemon and stable command output.",
+      "getcli makes Docker installation explicit and keeps verification close to install, which matters when you need the binary, the daemon, and the context to all line up before automation starts.",
     useCases: [
-      "Bootstrap a container build environment on a clean machine.",
-      "Verify Docker is installed before running `docker build`, `docker compose`, or CI smoke tests.",
-      "Keep developer laptops and ephemeral workstations on one installation path.",
+      "Bootstrap a clean machine for `docker build`, `docker compose`, and registry login checks.",
+      "Verify both the CLI and the local daemon before an agent starts container work.",
+      "Keep developer laptops, CI runners, and throwaway workstations on one install path.",
     ],
     faqs: [
       {
         question: "Does installing the Docker CLI mean Docker is ready to use?",
         answer:
-          "Not always. The CLI can be installed while the Docker daemon is unavailable. That is why verification matters.",
+          "No. The CLI can be present while the daemon is stopped, misconfigured, or blocked by permissions. Install and verification are separate checks.",
       },
       {
-        question: "Why not just send developers to Docker Desktop?",
+        question: "When is Docker Desktop still the right answer?",
         answer:
-          "That works for humans, but it is not a unified workflow. getcli is better when you want a repeatable install command across multiple tools.",
+          "When you want the full desktop app and background services. getcli is better when you want the CLI as one managed dependency inside a broader toolchain.",
       },
     ],
   },
@@ -79,6 +79,29 @@ const toolPageContent: Record<string, ToolPageContent> = {
         question: "What auth method should I expect?",
         answer:
           "Interactive work usually starts with `firebase login`. CI often uses `firebase login:ci` or a service account-based flow depending on the setup.",
+      },
+    ],
+  },
+  feishu: {
+    intro:
+      "Lark / Feishu CLI is the terminal entry point for messaging, docs, sheets, calendar, mail, contacts, and other Feishu Open Platform workflows.",
+    whyGetcli:
+      "Feishu setup is heavier than a typical developer tool because install, app bootstrap, auth, and app scope all matter. getcli keeps the binary discoverable and verifiable before the browser-based auth flow starts.",
+    useCases: [
+      "Prepare a machine for Feishu message automation, calendar workflows, and document operations.",
+      "Verify `lark-cli` before handing collaboration or back-office tasks to an agent.",
+      "Keep Feishu platform tooling visible beside GitHub, Vercel, and cloud CLIs in one registry.",
+    ],
+    faqs: [
+      {
+        question: "What usually happens right after install?",
+        answer:
+          "You normally create app credentials first, then run the browser-based auth flow. The exact commands depend on whether you are bootstrapping a new app or reusing one.",
+      },
+      {
+        question: "What makes it agent-friendly enough to list here?",
+        answer:
+          "It exposes structured output, documents its auth flow, and ships with skill-based instructions that agents can follow without guessing the workflow.",
       },
     ],
   },
@@ -107,24 +130,47 @@ const toolPageContent: Record<string, ToolPageContent> = {
   },
   github: {
     intro:
-      "GitHub CLI is the fastest way to script pull requests, issues, releases, repo operations, and auth-aware GitHub workflows from a terminal.",
+      "GitHub CLI is the terminal layer for repo operations, pull requests, issues, releases, code review, and auth-aware GitHub workflows.",
     whyGetcli:
-      "getcli is useful when GitHub CLI is only one of many tools an agent needs. You get one install surface, one registry, and one verification path instead of scattered vendor-specific docs.",
+      "getcli is useful when GitHub CLI is only one of many tools an agent needs. You get one install surface, one registry, and one verification path instead of scattered vendor-specific docs or browser-only setup steps.",
     useCases: [
-      "Set up `gh` quickly before repo, PR, or release automation work.",
-      "Verify GitHub CLI presence before agent-driven issue triage and code review flows.",
-      "Keep local and ephemeral machines aligned on the same installation path.",
+      "Set up `gh` before repo automation, release drafting, or PR review flows.",
+      "Verify GitHub CLI presence before agent-driven issue triage and code review work.",
+      "Keep local and ephemeral machines aligned on the same install path for org and repo tasks.",
     ],
     faqs: [
       {
         question: "Can I use GitHub CLI without logging in?",
         answer:
-          "Some public read operations work unauthenticated, but most useful repo and PR workflows need `gh auth login` or a token.",
+          "Some public read operations work unauthenticated, but most useful repo, PR, and release workflows need `gh auth login` or a token with the right scopes.",
       },
       {
-        question: "Why create a dedicated landing page for GitHub CLI?",
+        question: "What usually matters right after install?",
         answer:
-          "Search intent is specific. People do not search for a generic installer when they want to install GitHub CLI. They search for GitHub CLI directly.",
+          "Auth scope, repo context, and whether the machine can reach the intended GitHub host. Those are the failure points that make verification worthwhile.",
+      },
+    ],
+  },
+  "google-workspace": {
+    intro:
+      "Google Workspace CLI gives you one `gws` command surface for Drive, Gmail, Calendar, Sheets, Docs, Chat, Admin, and other Workspace APIs.",
+    whyGetcli:
+      "Workspace automation is high-value but setup-heavy. getcli keeps install and verification consistent before you deal with Google Cloud projects, OAuth client setup, refresh tokens, and service-account style flows.",
+    useCases: [
+      "Prepare a machine for Drive, Gmail, Sheets, and Calendar automation.",
+      "Verify `gws` before agent-driven Workspace tasks or browser-assisted auth flows.",
+      "Keep productivity tooling in the same install registry as infrastructure and deploy CLIs.",
+    ],
+    faqs: [
+      {
+        question: "Do I need `gcloud` to use the Google Workspace CLI?",
+        answer:
+          "Not strictly. `gws auth setup` is the fastest path when `gcloud` is installed, but the project also supports manual OAuth setup and credential-file based flows.",
+      },
+      {
+        question: "Why is this tool especially useful for agents?",
+        answer:
+          "Because the upstream CLI is designed around structured JSON responses, schema introspection, and multi-step auth workflows that agents can reason about reliably without falling back to browser scraping.",
       },
     ],
   },
@@ -199,24 +245,24 @@ const toolPageContent: Record<string, ToolPageContent> = {
   },
   stripe: {
     intro:
-      "Stripe CLI is essential for webhook testing, local event replay, and payment integration development without waiting on live dashboard flows.",
+      "Stripe CLI is the fast path for webhook testing, local event replay, fixture generation, and payment integration work without waiting on dashboard flows.",
     whyGetcli:
-      "Stripe often appears in app onboarding or integration debugging. getcli reduces setup friction when an agent or teammate needs the CLI immediately and does not want to hunt for vendor docs.",
+      "Stripe often appears during onboarding, checkout work, or incident debugging. getcli reduces setup friction when someone needs the CLI immediately and does not want to hunt through vendor docs or guess the auth path.",
     useCases: [
       "Set up webhook testing on a new machine.",
-      "Verify Stripe CLI before local payment integration work.",
+      "Replay Stripe events into a local server during checkout or webhook debugging.",
       "Keep fintech-related tooling discoverable in a central CLI registry.",
     ],
     faqs: [
       {
         question: "Do I need a browser login or an API key?",
         answer:
-          "Either can work depending on your flow. Interactive work often starts with `stripe login`, while automation may use `STRIPE_API_KEY`.",
+          "Either can work depending on your flow. Interactive work often starts with `stripe login`, while automation may use `STRIPE_API_KEY` or a project-specific secret.",
       },
       {
         question: "Why is Stripe CLI worth a dedicated page?",
         answer:
-          "Because install intent is specific and high-value. The people searching for it are already close to integration work.",
+          "Because install intent is specific and high-value. People searching for it are usually already close to webhook, checkout, or event replay work.",
       },
     ],
   },
@@ -245,24 +291,24 @@ const toolPageContent: Record<string, ToolPageContent> = {
   },
   terraform: {
     intro:
-      "Terraform CLI is still the default interface for plan, apply, state inspection, and infrastructure workflows across major cloud providers.",
+      "Terraform CLI is still the default interface for plan, apply, state inspection, imports, and infrastructure workflows across major cloud providers.",
     whyGetcli:
-      "Terraform tends to live beside AWS, kubectl, Docker, and platform CLIs. getcli gives you a single installation and verification workflow across that whole stack.",
+      "Terraform tends to live beside AWS, kubectl, Docker, and platform CLIs. getcli gives you a single installation and verification workflow across that whole stack instead of a different package manager decision on every machine.",
     useCases: [
-      "Bootstrap a workstation for plan and apply workflows.",
-      "Verify the CLI before running infrastructure automation or drift checks.",
+      "Bootstrap a workstation for plan, apply, and state inspection workflows.",
+      "Verify the CLI before running drift checks or automated infrastructure changes.",
       "Standardize Terraform setup across local and ephemeral environments.",
     ],
     faqs: [
       {
         question: "Does installing Terraform also configure cloud access?",
         answer:
-          "No. Terraform still depends on provider credentials and backend configuration after the binary is installed.",
+          "No. Terraform still depends on provider credentials, backend configuration, and workspace conventions after the binary is installed.",
       },
       {
         question: "Why use getcli if Terraform already has clear install docs?",
         answer:
-          "Because installation is only one tool-specific step. getcli is valuable when you want one cross-tool workflow instead of separate vendor instructions for everything.",
+          "Because installation is only one tool-specific step. getcli is valuable when you want one cross-tool workflow instead of separate vendor instructions for everything, especially on machines that also need kubectl, AWS, or Docker.",
       },
     ],
   },
@@ -296,7 +342,7 @@ const toolPageContent: Record<string, ToolPageContent> = {
       "Vercel is a high-intent install term. A dedicated page lets getcli rank on those specific searches while still giving users a unified installer instead of another standalone npm step.",
     useCases: [
       "Set up preview and production deploy workflows on a new machine.",
-      "Verify the Vercel CLI before agent-driven deployment or environment changes.",
+      "Verify the Vercel CLI before agent-driven deployment, link, or environment changes.",
       "Standardize frontend platform tooling with the rest of your CLI stack.",
     ],
     faqs: [
@@ -308,7 +354,7 @@ const toolPageContent: Record<string, ToolPageContent> = {
       {
         question: "What should I do after install?",
         answer:
-          "Run `vercel login` and link the right project or team context before deploy commands.",
+          "Run `vercel login`, link the right project, and confirm the team or org context before deploy commands.",
       },
     ],
   },

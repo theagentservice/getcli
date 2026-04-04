@@ -1,0 +1,43 @@
+manifest_version: 1
+id: feishu
+name: feishu
+display_name: Lark / Feishu CLI
+homepage: https://github.com/larksuite/cli
+description: Official CLI for Lark / Feishu Open Platform — messaging, docs, sheets, calendar, mail, and more
+command: lark-cli
+aliases:
+  - lark
+  - larksuite
+  - lark-cli
+  - feishu-cli
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: npm
+    package: "@larksuite/cli"
+  alternatives:
+    - type: binary
+      url: https://github.com/larksuite/cli
+      note: Build from source with Go and Python
+prerequisites:
+  - node
+auth_notes:
+  - Run `lark-cli config init --new` to create app credentials
+  - Run `lark-cli auth login --recommend` to authorize user scopes
+  - Use `lark-cli auth status` to verify the current login state
+examples:
+  - lark-cli auth status
+  - lark-cli calendar +agenda
+  - lark-cli im +messages-send --chat-id oc_xxx --text "Hello"
+tags:
+  - feishu
+  - lark
+  - collaboration
+  - productivity
+  - messaging
+  - docs

@@ -1,0 +1,47 @@
+manifest_version: 1
+id: google-workspace
+name: google-workspace
+display_name: Google Workspace CLI
+homepage: https://github.com/googleworkspace/cli
+description: CLI for Drive, Gmail, Calendar, Sheets, Docs, Chat, Admin, and more, with structured JSON output
+command: gws
+aliases:
+  - gws
+  - googleworkspace
+  - googleworkspace-cli
+platforms:
+  - macos
+  - linux
+  - windows
+agent_friendly: true
+supports_json: true
+install:
+  default:
+    type: npm
+    package: "@googleworkspace/cli"
+  alternatives:
+    - type: brew
+      package: googleworkspace-cli
+    - type: binary
+      url: https://github.com/googleworkspace/cli/releases
+      note: Download a pre-built binary from GitHub Releases
+prerequisites:
+  - node
+  - google-cloud-project
+  - google-account
+auth_notes:
+  - Run `gws auth setup` for the fastest local setup when `gcloud` is installed
+  - Run `gws auth login` after configuring OAuth credentials
+  - CI and headless setups can use GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE or GOOGLE_WORKSPACE_CLI_TOKEN
+examples:
+  - gws auth setup
+  - 'gws drive files list --params ''{"pageSize": 5}'''
+  - 'gws sheets spreadsheets create --json ''{"properties": {"title": "Q1 Budget"}}'''
+tags:
+  - google
+  - workspace
+  - gmail
+  - drive
+  - docs
+  - sheets
+  - productivity
